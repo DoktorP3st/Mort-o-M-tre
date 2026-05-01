@@ -11,15 +11,15 @@ Le **Mort-o-Mètre** est un widget interactif qui affiche en temps réel le nomb
 ## 🖼️ Aperçu
 
 <p align="center">
-  <img src="https://i.ibb.co/DPpC741s/Capture-d-cran-2026-05-01-210540.png" width="100%" alt="Mort-o-Mètre Preview 1">
+  <img src="https://i.ibb.co/DPpC741s/Capture-d-cran-2026-05-01-210540.png" width="700" alt="Mort-o-Mètre Preview 1">
 </p>
 
 <p align="center">
-  <img src="https://i.ibb.co/tTdKY5n8/Capture-d-cran-2026-05-01-210553.png" width="100%" alt="Mort-o-Mètre Preview 2">
+  <img src="https://i.ibb.co/tTdKY5n8/Capture-d-cran-2026-05-01-210553.png" width="700" alt="Mort-o-Mètre Preview 2">
 </p>
 
 <p align="center">
-  <img src="https://i.ibb.co/Ps4DGF6L/Capture-d-cran-2026-05-01-210604.png" width="100%" alt="Mort-o-Mètre Preview 3">
+  <img src="https://i.ibb.co/Ps4DGF6L/Capture-d-cran-2026-05-01-210604.png" width="700" alt="Mort-o-Mètre Preview 3">
 </p>
 
 ---
