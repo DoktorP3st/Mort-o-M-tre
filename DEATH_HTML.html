@@ -1,0 +1,147 @@
+<!-- MORT-O-MÈTRE — MAX EFFECTS -->
+<div id="dc-root">
+
+  <!-- Pluie de cendres (fond) -->
+  <div id="dc-ash"></div>
+
+  <!-- Sol en flammes -->
+  <div id="dc-groundfire">
+    <svg viewBox="0 0 340 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gf1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="var(--fire-hi)" stop-opacity=".95"/>
+          <stop offset="55%" stop-color="var(--fire-mid)" stop-opacity=".6"/>
+          <stop offset="100%" stop-color="var(--fire-lo)" stop-opacity=".1"/>
+        </linearGradient>
+        <filter id="gfblur"><feGaussianBlur stdDeviation="3"/></filter>
+      </defs>
+      <g filter="url(#gfblur)">
+        <path id="gf-a" d="M0,80 C25,55 55,20 90,45 C120,15 155,70 190,30 C220,5 255,65 290,25 C310,10 330,55 340,40 L340,80Z" fill="url(#gf1)"/>
+        <path id="gf-b" d="M0,80 C35,60 65,30 100,55 C135,25 165,75 200,40 C230,15 265,70 300,35 C320,20 335,60 340,50 L340,80Z" fill="url(#gf1)" opacity=".7"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Vortex de particules (tourne autour du crâne) -->
+  <div id="dc-vortex"></div>
+
+  <!-- Particules ambiantes montantes -->
+  <div id="dc-particles"></div>
+
+  <!-- Aura de fond -->
+  <div id="dc-aura"></div>
+
+  <!-- Crâne fantôme (arrière-plan, plus grand, tourne lentement) -->
+  <div id="dc-skull-ghost"></div>
+
+  <!-- Éclairs -->
+  <div id="dc-lightning"></div>
+
+  <!-- CRÂNE PRINCIPAL -->
+  <div id="dc-skull-wrap">
+    <svg id="dc-skull" viewBox="0 0 240 260" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="sf" cx="42%" cy="30%">
+          <stop offset="0%"   stop-color="var(--skull-hi)"/>
+          <stop offset="50%"  stop-color="var(--skull-mid)"/>
+          <stop offset="100%" stop-color="var(--skull-lo)"/>
+        </radialGradient>
+        <radialGradient id="ef" cx="50%" cy="40%">
+          <stop offset="0%"   stop-color="var(--eye-hi)"/>
+          <stop offset="55%"  stop-color="var(--eye-mid)"/>
+          <stop offset="100%" stop-color="var(--eye-lo)"/>
+        </radialGradient>
+        <filter id="sd" x="-30%" y="-30%" width="160%" height="160%">
+          <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#000" flood-opacity=".9"/>
+          <feDropShadow dx="0" dy="2" stdDeviation="5"  flood-color="#000" flood-opacity=".8"/>
+        </filter>
+        <filter id="eg" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="5" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="sg" x="-25%" y="-25%" width="150%" height="150%">
+          <feGaussianBlur stdDeviation="6" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- Halo -->
+      <ellipse cx="120" cy="118" rx="100" ry="98" fill="var(--aura-col)" filter="url(#sg)" opacity=".45"/>
+
+      <!-- Corps crâne -->
+      <ellipse cx="120" cy="108" rx="84" ry="80" fill="url(#sf)" filter="url(#sd)"/>
+
+      <!-- Mâchoire -->
+      <path d="M60 162 Q70 200 120 204 Q170 200 180 162 Q158 178 120 180 Q82 178 60 162Z"
+            fill="url(#sf)" filter="url(#sd)"/>
+
+      <!-- Dents -->
+      <rect x="80"  y="178" width="15" height="23" rx="5" fill="var(--skull-hi)" opacity=".95"/>
+      <rect x="99"  y="181" width="14" height="20" rx="4" fill="var(--skull-hi)" opacity=".9"/>
+      <rect x="117" y="181" width="14" height="20" rx="4" fill="var(--skull-hi)" opacity=".9"/>
+      <rect x="135" y="178" width="15" height="23" rx="5" fill="var(--skull-hi)" opacity=".95"/>
+
+      <!-- Orbites -->
+      <ellipse cx="86"  cy="110" rx="27" ry="29" fill="#080200"/>
+      <ellipse cx="154" cy="110" rx="27" ry="29" fill="#080200"/>
+
+      <!-- Yeux -->
+      <ellipse id="eye-l" cx="86"  cy="110" rx="21" ry="23" fill="url(#ef)" filter="url(#eg)"/>
+      <ellipse id="eye-r" cx="154" cy="110" rx="21" ry="23" fill="url(#ef)" filter="url(#eg)"/>
+
+      <!-- Pupilles intérieures -->
+      <ellipse cx="86"  cy="113" rx="9"  ry="11" fill="var(--eye-hi)" opacity=".55"/>
+      <ellipse cx="154" cy="113" rx="9"  ry="11" fill="var(--eye-hi)" opacity=".55"/>
+      <ellipse cx="86"  cy="113" rx="4"  ry="5"  fill="var(--pupil)" opacity=".7"/>
+      <ellipse cx="154" cy="113" rx="4"  ry="5"  fill="var(--pupil)" opacity=".7"/>
+
+      <!-- Nez -->
+      <path d="M112 134 L120 120 L128 134 Q120 144 112 134Z" fill="#0f0300" opacity=".85"/>
+
+      <!-- Fissures de base (toujours présentes) -->
+      <path class="crack base-crack" d="M120 30 L114 65 L126 65Z" fill="none" stroke="var(--crack-col)" stroke-width="2" opacity=".6"/>
+      <path class="crack base-crack" d="M72 62 L88 84"            fill="none" stroke="var(--crack-col)" stroke-width="1.5" opacity=".5"/>
+      <path class="crack base-crack" d="M168 62 L152 84"          fill="none" stroke="var(--crack-col)" stroke-width="1.5" opacity=".5"/>
+
+      <!-- Fissures tier 1 (5+ morts) -->
+      <path class="crack t1-crack" d="M95 35 L82 58"              fill="none" stroke="var(--crack-col)" stroke-width="1.8" opacity=".65"/>
+      <path class="crack t1-crack" d="M58 85 L78 108"             fill="none" stroke="var(--crack-col)" stroke-width="1.5" opacity=".55"/>
+      <path class="crack t1-crack" d="M182 85 L162 108"           fill="none" stroke="var(--crack-col)" stroke-width="1.5" opacity=".55"/>
+
+      <!-- Fissures tier 2 (10+ morts) -->
+      <path class="crack t2-crack" d="M145 40 L158 68"            fill="none" stroke="var(--crack-col)" stroke-width="2" opacity=".7"/>
+      <path class="crack t2-crack" d="M120 65 L108 90 L130 85"    fill="none" stroke="var(--crack-col)" stroke-width="1.8" opacity=".65"/>
+      <path class="crack t2-crack" d="M65 125 L85 138"            fill="none" stroke="var(--crack-col)" stroke-width="1.5" opacity=".6"/>
+      <path class="crack t2-crack" d="M175 125 L155 138"          fill="none" stroke="var(--crack-col)" stroke-width="1.5" opacity=".6"/>
+
+      <!-- Fissures tier 3 (20+ morts) — partout -->
+      <path class="crack t3-crack" d="M100 55 L82 78 L95 88"      fill="none" stroke="var(--crack-col)" stroke-width="2.2" opacity=".8"/>
+      <path class="crack t3-crack" d="M140 55 L158 78 L145 88"    fill="none" stroke="var(--crack-col)" stroke-width="2.2" opacity=".8"/>
+      <path class="crack t3-crack" d="M60 105 L78 125 L62 142"    fill="none" stroke="var(--crack-col)" stroke-width="1.8" opacity=".7"/>
+      <path class="crack t3-crack" d="M180 105 L162 125 L178 142" fill="none" stroke="var(--crack-col)" stroke-width="1.8" opacity=".7"/>
+      <path class="crack t3-crack" d="M95 155 L110 168 L100 180"  fill="none" stroke="var(--crack-col)" stroke-width="1.6" opacity=".65"/>
+      <path class="crack t3-crack" d="M145 155 L130 168 L140 180" fill="none" stroke="var(--crack-col)" stroke-width="1.6" opacity=".65"/>
+
+      <!-- Reflet crâne -->
+      <ellipse cx="95" cy="80" rx="22" ry="12" fill="rgba(255,255,255,.12)" transform="rotate(-22 95 80)"/>
+
+      <!-- Gouttes de sang (tier 2+) -->
+      <g class="blood-drops">
+        <path id="bd1" d="M86 131 Q84 145 86 152 Q88 145 86 131Z"  fill="var(--blood-col)" opacity=".9"/>
+        <path id="bd2" d="M154 131 Q152 148 154 156 Q156 148 154 131Z" fill="var(--blood-col)" opacity=".85"/>
+        <path id="bd3" d="M114 65 Q112 78 114 84 Q116 78 114 65Z"  fill="var(--blood-col)" opacity=".7"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Burst particules event -->
+  <div id="dc-burst"></div>
+
+  <!-- Compteur -->
+  <div id="dc-number-wrap">
+    <!-- Ombre décalée (chromatic aberration) -->
+    <div id="dc-number-shadow"></div>
+    <div id="dc-number">0</div>
+  </div>
+
+</div>

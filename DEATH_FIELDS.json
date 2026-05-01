@@ -1,0 +1,35 @@
+{
+  "widgetName": { "type": "hidden", "value": "💀 Mort-o-Mètre — MAX" },
+
+  "deathCount": {
+    "type": "number",
+    "label": "💀 Nombre de morts (régler ici directement)",
+    "value": 0, "min": 0, "max": 9999, "step": 1,
+    "group": "💀 Compteur"
+  },
+
+  "visualTheme": {
+    "type": "dropdown",
+    "label": "🎨 Thème visuel",
+    "value": "diablo",
+    "options": {
+      "diablo":   "⚔ Diablo — Or, sang & feu",
+      "infernal": "🔥 Infernal — Tout en rouge, lava",
+      "shadow":   "🌑 Shadow — Violet, nécromancie"
+    },
+    "group": "🎨 Thème"
+  },
+
+  "showDuration": {
+    "type": "slider",
+    "label": "Durée d'affichage (secondes)",
+    "value": 8, "min": 3, "max": 30, "step": 1,
+    "group": "⏱️ Timing"
+  },
+  "cycleInterval": {
+    "type": "slider",
+    "label": "Réapparition auto toutes les X secondes",
+    "value": 30, "min": 10, "max": 120, "step": 5,
+    "group": "⏱️ Timing"
+  }
+}
