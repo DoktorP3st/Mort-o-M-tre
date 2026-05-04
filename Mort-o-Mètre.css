@@ -1,289 +1,190 @@
 /* ══════════════════════════════════════════════════
-   MORT-O-MÈTRE — MAX EFFECTS | CSS
-   3 thèmes : Diablo / Infernal / Shadow
+   MORT-O-MÈTRE — 4 Formes | ZÉRO FOND | CSS
 ══════════════════════════════════════════════════ */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@900&display=swap');
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{background:transparent!important;overflow:hidden;}
 
-/* ══════════════════════════════════════════════════
-   VARIABLES PAR THÈME
-══════════════════════════════════════════════════ */
-
-/* ── THÈME DIABLO (défaut) ── */
-#dc-root{
-  --skull-hi:  #d4a84b;
-  --skull-mid: #8b5e12;
-  --skull-lo:  #2a1504;
-  --eye-hi:    #ff8800;
-  --eye-mid:   #cc2200;
-  --eye-lo:    #3a0000;
-  --pupil:     #ffcc00;
-  --crack-col: #4a2808;
-  --blood-col: #cc0000;
-  --aura-col:  #ff3300;
-  --fire-hi:   #ff6b00;
-  --fire-mid:  #cc2200;
-  --fire-lo:   #8b0000;
-  --glow-a:    #c8922a;
-  --glow-b:    #8b0000;
-  --num-col:   #ffffff;
-  --num-sh:    rgba(200,146,42,.9);
-  --num-shd:   #ff4400;
-  --ash-col:   #555;
-  --vortex-a:  #ff6b00;
-  --vortex-b:  #c8922a;
-  --vortex-c:  #ff0000;
-  --ghost-col: rgba(139,0,0,.08);
-  --lightning-col: #ff8800;
-}
-
-/* ── THÈME INFERNAL ── */
-#dc-root.theme-infernal{
-  --skull-hi:  #ff4422;
-  --skull-mid: #aa1100;
-  --skull-lo:  #1a0000;
-  --eye-hi:    #ffff00;
-  --eye-mid:   #ff4400;
-  --eye-lo:    #1a0000;
-  --pupil:     #ffffff;
-  --crack-col: #ff0000;
-  --blood-col: #ff0000;
-  --aura-col:  #ff0000;
-  --fire-hi:   #ff0000;
-  --fire-mid:  #ff4400;
-  --fire-lo:   #aa0000;
-  --glow-a:    #ff2200;
-  --glow-b:    #ff6600;
-  --num-col:   #ff4422;
-  --num-sh:    rgba(255,50,0,.9);
-  --num-shd:   #ffff00;
-  --ash-col:   #aa2200;
-  --vortex-a:  #ff0000;
-  --vortex-b:  #ff4400;
-  --vortex-c:  #ff8800;
-  --ghost-col: rgba(200,0,0,.12);
-  --lightning-col: #ff0000;
-}
-
-/* ── THÈME SHADOW ── */
-#dc-root.theme-shadow{
-  --skull-hi:  #b088cc;
-  --skull-mid: #4a2266;
-  --skull-lo:  #0a0014;
-  --eye-hi:    #cc88ff;
-  --eye-mid:   #6600cc;
-  --eye-lo:    #0a0020;
-  --pupil:     #ffffff;
-  --crack-col: #8800cc;
-  --blood-col: #8800cc;
-  --aura-col:  #6600cc;
-  --fire-hi:   #8800ff;
-  --fire-mid:  #5500aa;
-  --fire-lo:   #220044;
-  --glow-a:    #9900ff;
-  --glow-b:    #4400aa;
-  --num-col:   #cc88ff;
-  --num-sh:    rgba(150,0,255,.9);
-  --num-shd:   #00ffff;
-  --ash-col:   #6600aa;
-  --vortex-a:  #9900ff;
-  --vortex-b:  #6600cc;
-  --vortex-c:  #cc00ff;
-  --ghost-col: rgba(100,0,200,.1);
-  --lightning-col: #cc00ff;
-}
-
-/* ══════════════════════════════════════════════════
-   RACINE
-══════════════════════════════════════════════════ */
+/* ── RACINE : zéro fond, zéro border ── */
 #dc-root{
   position:relative;
-  width:340px; height:420px;
-  background:transparent;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
+  width:320px;height:420px;
+  background:transparent!important;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
   user-select:none;
-  opacity:0;
-  transition:opacity .5s ease;
+  opacity:0;transition:opacity .5s ease;
 }
 #dc-root.visible{opacity:1;}
-#dc-root.appearing {animation:dcIn  .75s cubic-bezier(.22,1,.36,1) forwards;}
-#dc-root.disappearing{animation:dcOut .6s ease forwards;}
-@keyframes dcIn  {0%{opacity:0;transform:scale(.15) rotate(-8deg);}40%{opacity:1;transform:scale(1.1) rotate(2deg);}70%{transform:scale(.96) rotate(-1deg);}100%{opacity:1;transform:scale(1) rotate(0);}}
-@keyframes dcOut {0%{opacity:1;transform:scale(1);}40%{transform:scale(1.06);}100%{opacity:0;transform:scale(.1) rotate(6deg);}}
-
-/* Tier 3 apparition : éclair du ciel */
+#dc-root.appearing   {animation:dcIn  .75s cubic-bezier(.22,1,.36,1) forwards;}
+#dc-root.disappearing{animation:dcOut .6s  ease                      forwards;}
+@keyframes dcIn {
+  0%  {opacity:0;transform:scale(.15) rotate(-8deg);}
+  40% {opacity:1;transform:scale(1.08) rotate(2deg);}
+  70% {transform:scale(.97) rotate(-1deg);}
+  100%{opacity:1;transform:scale(1) rotate(0);}
+}
+@keyframes dcOut{
+  0%  {opacity:1;transform:scale(1);}
+  40% {transform:scale(1.06);}
+  100%{opacity:0;transform:scale(.12) rotate(6deg);}
+}
+/* Tier 3 apparition spéciale */
 #dc-root.appearing.tier3{animation:dcInfernal 1s cubic-bezier(.22,1,.36,1) forwards;}
 @keyframes dcInfernal{
-  0% {opacity:0;transform:translateY(-60px) scale(.1);}
+  0% {opacity:0;transform:translateY(-50px) scale(.1);}
   20%{opacity:1;transform:translateY(0) scale(1.3);filter:brightness(4) saturate(3);}
-  45%{transform:scale(.92);filter:brightness(1.5);}
+  45%{transform:scale(.93);filter:brightness(1.5);}
   70%{transform:scale(1.04);filter:brightness(1);}
   100%{opacity:1;transform:scale(1);filter:none;}
 }
 
-/* ══════════════════════════════════════════════════
-   PLUIE DE CENDRES
-══════════════════════════════════════════════════ */
-#dc-ash{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
-.ash{
-  position:absolute;
-  width:2px;height:6px;
-  border-radius:50%;
-  background-color:var(--ash-col);
-  opacity:0;
-  animation:ashFall linear infinite;
-}
-@keyframes ashFall{
-  0%  {opacity:0; transform:translateY(-10px) translateX(0);}
-  10% {opacity:.6;}
-  90% {opacity:.3;}
-  100%{opacity:0; transform:translateY(420px) translateX(var(--ax,20px));}
-}
-
-/* ══════════════════════════════════════════════════
-   SOL EN FLAMMES
-══════════════════════════════════════════════════ */
-#dc-groundfire{
-  position:absolute;bottom:0;left:0;right:0;height:100px;
-  pointer-events:none;z-index:1;
-}
-#dc-groundfire svg{width:100%;height:100%;}
-#gf-a{animation:gfAnim 2.1s ease-in-out infinite;}
-#gf-b{animation:gfAnim 1.7s ease-in-out infinite;animation-delay:-.4s;opacity:.75;}
-@keyframes gfAnim{
-  0%,100%{transform:scaleY(.85) translateX(0);}
-  25%    {transform:scaleY(1.22) translateX(4px);}
-  50%    {transform:scaleY(.9)  translateX(-3px);}
-  75%    {transform:scaleY(1.28) translateX(3px);}
-}
-
-/* ══════════════════════════════════════════════════
-   AURA
-══════════════════════════════════════════════════ */
+/* ── AURA (zéro fond, juste diffusion) ── */
 #dc-aura{
-  position:absolute;left:50%;top:42%;
+  position:absolute;left:50%;top:44%;
   transform:translate(-50%,-50%);
-  width:280px;height:280px;border-radius:50%;
-  background:radial-gradient(circle,var(--aura-col) 0%,transparent 70%);
-  pointer-events:none;
-  opacity:.18;filter:blur(22px);
-  animation:auraPulse 2.5s ease-in-out infinite;
-}
-@keyframes auraPulse{
-  0%,100%{transform:translate(-50%,-50%) scale(1);  opacity:.18;}
-  50%    {transform:translate(-50%,-50%) scale(1.25);opacity:.35;}
-}
-#dc-root.tier2 #dc-aura{opacity:.32;animation:auraPulse 1.8s ease-in-out infinite;}
-#dc-root.tier3 #dc-aura{opacity:.55;filter:blur(20px);animation:auraPulse 1.1s ease-in-out infinite;}
-
-/* ══════════════════════════════════════════════════
-   CRÂNE FANTÔME (arrière-plan)
-══════════════════════════════════════════════════ */
-#dc-skull-ghost{
-  position:absolute;left:50%;top:40%;
-  transform:translate(-50%,-50%);
-  width:280px;height:280px;
-  opacity:.07;
-  animation:ghostSpin 30s linear infinite;
+  width:0;height:0;border-radius:50%;
   pointer-events:none;z-index:0;
-  filter:blur(4px);
-  background:radial-gradient(ellipse,var(--ghost-col) 0%,transparent 60%);
+  opacity:0;transition:opacity 1s,width 1s,height 1s;
 }
-@keyframes ghostSpin{0%{transform:translate(-50%,-50%) rotate(0);}100%{transform:translate(-50%,-50%) rotate(360deg);}}
-#dc-root.tier1 #dc-skull-ghost{opacity:.12;animation-duration:20s;}
-#dc-root.tier2 #dc-skull-ghost{opacity:.18;animation-duration:12s;}
-#dc-root.tier3 #dc-skull-ghost{opacity:.28;animation-duration:6s;}
-
-/* ══════════════════════════════════════════════════
-   CRÂNE PRINCIPAL
-══════════════════════════════════════════════════ */
-#dc-skull-wrap{
-  position:relative;z-index:3;
-  width:220px;height:240px;
-  display:flex;align-items:center;justify-content:center;
-  margin-top:20px;
+/* Tier 0 : halo doré angélique */
+#dc-root.tier0 #dc-aura{
+  width:240px;height:240px;opacity:.22;
+  background:radial-gradient(circle,rgba(255,220,80,.7) 0%,rgba(255,180,0,.2) 40%,transparent 70%);
+  filter:blur(18px);
+  animation:auraTier0 4s ease-in-out infinite;
 }
-#dc-skull{
-  width:100%;height:100%;
-  animation:skullFloat 4s ease-in-out infinite;
-  filter:
-    drop-shadow(0 0 18px var(--glow-a))
-    drop-shadow(0 0 38px var(--glow-b))
-    drop-shadow(0 8px 16px rgba(0,0,0,.98));
-  transition:filter .4s;
+@keyframes auraTier0{0%,100%{opacity:.18;transform:translate(-50%,-50%) scale(1);}50%{opacity:.32;transform:translate(-50%,-50%) scale(1.15);}}
+/* Tier 1 : lueur orange douce */
+#dc-root.tier1 #dc-aura{
+  width:260px;height:260px;opacity:.2;
+  background:radial-gradient(circle,rgba(200,100,0,.6) 0%,transparent 65%);
+  filter:blur(20px);
+  animation:auraTier1 3s ease-in-out infinite;
 }
-@keyframes skullFloat{
-  0%,100%{transform:translateY(0)   rotate(0deg);}
-  25%    {transform:translateY(-10px) rotate(-1.8deg);}
-  75%    {transform:translateY(-5px)  rotate(1.8deg);}
+@keyframes auraTier1{0%,100%{opacity:.18;transform:translate(-50%,-50%) scale(1);}50%{opacity:.3;transform:translate(-50%,-50%) scale(1.2);}}
+/* Tier 2 : rouge plus intense */
+#dc-root.tier2 #dc-aura{
+  width:280px;height:280px;opacity:.32;
+  background:radial-gradient(circle,rgba(255,50,0,.7) 0%,rgba(180,0,0,.25) 45%,transparent 70%);
+  filter:blur(22px);
+  animation:auraTier2 2s ease-in-out infinite;
 }
-/* Tier 1 */
-#dc-root.tier1 #dc-skull{filter:drop-shadow(0 0 24px var(--glow-a)) drop-shadow(0 0 50px var(--glow-b)) drop-shadow(0 8px 16px rgba(0,0,0,.98));}
-/* Tier 2 — tremblement */
-#dc-root.tier2 #dc-skull{filter:drop-shadow(0 0 32px var(--glow-a)) drop-shadow(0 0 65px var(--glow-b)) drop-shadow(0 8px 18px rgba(0,0,0,.98));animation:skullTier2 2s ease-in-out infinite;}
-@keyframes skullTier2{0%,100%{transform:translateY(0)   rotate(0)   scale(1);}30%{transform:translateY(-12px) rotate(-2.5deg) scale(1.03);}70%{transform:translateY(-5px)  rotate(2.5deg) scale(.97);}}
-/* Tier 3 — chaos */
-#dc-root.tier3 #dc-skull{filter:drop-shadow(0 0 45px var(--glow-a)) drop-shadow(0 0 90px var(--glow-b)) drop-shadow(0 0 140px var(--glow-a)) drop-shadow(0 8px 20px rgba(0,0,0,.98));animation:skullTier3 1.2s ease-in-out infinite;}
-@keyframes skullTier3{0%,100%{transform:translateY(0)   rotate(0)    scale(1);}15%{transform:translateY(-12px) rotate(-3deg) scale(1.04);}35%{transform:translateY(-4px)  rotate(2.5deg) scale(.96);}55%{transform:translateY(-14px) rotate(-2deg) scale(1.05);}75%{transform:translateY(-6px)  rotate(2deg) scale(.97);}}
-
-/* Yeux — tier 0 : clignote lent | tier 2 : tremble | tier 3 : rotation */
-#eye-l,#eye-r{animation:eyeBlink 3s ease-in-out infinite;transform-origin:center;}
-#eye-r{animation-delay:.6s;}
-@keyframes eyeBlink{0%,100%{opacity:1}46%{opacity:.3}54%{opacity:.3}}
-#dc-root.tier2 #eye-l,#dc-root.tier2 #eye-r{animation:eyeFlicker 1.2s ease-in-out infinite;}
-@keyframes eyeFlicker{0%,100%{opacity:1;transform:scale(1)}20%{opacity:.5;transform:scale(.9)}40%{opacity:.9;transform:scale(1.05)}60%{opacity:.3;transform:scale(.95)}80%{opacity:1;transform:scale(1.02)}}
-#dc-root.tier3 #eye-l,#dc-root.tier3 #eye-r{animation:eyeSpin 2s linear infinite;}
-@keyframes eyeSpin{0%{opacity:1;filter:hue-rotate(0deg)}50%{opacity:.7;filter:hue-rotate(180deg)}100%{opacity:1;filter:hue-rotate(360deg)}}
-
-/* Fissures : masquées par défaut, révélées par tier */
-.crack{display:none;}
-.base-crack{display:block;}
-#dc-root.tier1 .t1-crack,#dc-root.tier2 .t1-crack,#dc-root.tier3 .t1-crack{display:block;}
-#dc-root.tier2 .t2-crack,#dc-root.tier3 .t2-crack{display:block;}
-#dc-root.tier3 .t3-crack{display:block;}
-
-/* Fissures tier3 rougeoyantes */
-#dc-root.tier3 .crack{stroke:var(--crack-col);filter:drop-shadow(0 0 3px var(--crack-col));animation:crackGlow 1.5s ease-in-out infinite;}
-@keyframes crackGlow{0%,100%{opacity:.7}50%{opacity:1}}
-
-/* Gouttes de sang — visibles à partir de tier1 */
-.blood-drops path{display:none;}
-#dc-root.tier1 .blood-drops path,
-#dc-root.tier2 .blood-drops path,
-#dc-root.tier3 .blood-drops path{display:block;animation:bloodDrip 3s ease-in-out infinite;}
-#bd1{animation-delay:.4s!important;}
-#bd2{animation-delay:.9s!important;}
-#bd3{animation-delay:1.4s!important;}
-@keyframes bloodDrip{
-  0%,100%{transform:scaleY(1) translateY(0);opacity:.9;}
-  40%    {transform:scaleY(1.6) translateY(6px);opacity:1;}
-  70%    {transform:scaleY(1.2) translateY(3px);opacity:.8;}
+@keyframes auraTier2{0%,100%{opacity:.28;transform:translate(-50%,-50%) scale(1);}50%{opacity:.48;transform:translate(-50%,-50%) scale(1.28);}}
+/* Tier 3 : INFERNO */
+#dc-root.tier3 #dc-aura{
+  width:320px;height:320px;opacity:.55;
+  background:radial-gradient(circle,rgba(255,0,0,.8) 0%,rgba(200,50,0,.4) 40%,transparent 68%);
+  filter:blur(25px);
+  animation:auraTier3 1.1s ease-in-out infinite;
 }
+@keyframes auraTier3{0%,100%{opacity:.48;transform:translate(-50%,-50%) scale(1);}50%{opacity:.75;transform:translate(-50%,-50%) scale(1.35);}}
 
-/* Animations skull event */
-#dc-skull.hit   {animation:skullHit    .45s cubic-bezier(.36,0,.66,-.56) forwards!important;}
-#dc-skull.revive{animation:skullRevive .5s ease forwards!important;}
-@keyframes skullHit   {0%{transform:scale(1) rotate(0)}25%{transform:scale(1.22) rotate(-4deg)}55%{transform:scale(.88) rotate(3deg)}100%{transform:scale(1) rotate(0)}}
-@keyframes skullRevive{0%{transform:scale(1) rotate(0)}35%{transform:scale(.82) rotate(4deg)}100%{transform:scale(1) rotate(0)}}
-
-/* ══════════════════════════════════════════════════
-   ÉCLAIRS
-══════════════════════════════════════════════════ */
-#dc-lightning{
-  position:absolute;inset:0;z-index:5;pointer-events:none;overflow:hidden;
-}
-.lt{
+/* ── VISAGES ── */
+.dc-face{
   position:absolute;
-  width:2px;
-  background:linear-gradient(var(--lightning-col),transparent);
-  border-radius:1px;
-  box-shadow:0 0 8px var(--lightning-col),0 0 16px rgba(255,255,255,.4);
-  opacity:0;
+  width:210px;height:240px;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .5s ease,transform .5s cubic-bezier(.22,1,.36,1);
+  transform:scale(.85);
+  z-index:3;
+}
+.dc-face.active{opacity:1;pointer-events:auto;transform:scale(1);}
+.dc-face svg{width:100%;height:100%;}
+
+/* ── ANIMATION FLOTTAISON PAR TIER ── */
+#dc-root.tier0 .dc-face.active{animation:floatAngel 5s ease-in-out infinite;}
+@keyframes floatAngel{
+  0%,100%{transform:translateY(0) rotate(0);}
+  30%    {transform:translateY(-12px) rotate(-1deg);}
+  70%    {transform:translateY(-6px)  rotate(1deg);}
+}
+#dc-root.tier1 .dc-face.active{animation:floatTier1 4s ease-in-out infinite;}
+@keyframes floatTier1{
+  0%,100%{transform:translateY(0) rotate(0);}
+  25%    {transform:translateY(-9px) rotate(-1.5deg);}
+  75%    {transform:translateY(-4px) rotate(1.5deg);}
+}
+#dc-root.tier2 .dc-face.active{animation:floatTier2 2.5s ease-in-out infinite;}
+@keyframes floatTier2{
+  0%,100%{transform:translateY(0) rotate(0) scale(1);}
+  30%    {transform:translateY(-12px) rotate(-2.5deg) scale(1.025);}
+  70%    {transform:translateY(-5px)  rotate(2.5deg) scale(.975);}
+}
+#dc-root.tier3 .dc-face.active{animation:floatTier3 1.3s ease-in-out infinite;}
+@keyframes floatTier3{
+  0%,100%{transform:translateY(0) rotate(0) scale(1);}
+  15%    {transform:translateY(-13px) rotate(-3deg) scale(1.04);}
+  35%    {transform:translateY(-4px)  rotate(2.5deg) scale(.96);}
+  55%    {transform:translateY(-15px) rotate(-2deg) scale(1.05);}
+  75%    {transform:translateY(-5px)  rotate(2deg) scale(.97);}
+}
+
+/* ── FILTER GLOW PAR TIER ── */
+#dc-root.tier0 .dc-face.active{filter:drop-shadow(0 0 14px rgba(255,220,80,.55)) drop-shadow(0 8px 16px rgba(0,0,0,.98));}
+#dc-root.tier1 .dc-face.active{filter:drop-shadow(0 0 18px rgba(200,146,42,.7)) drop-shadow(0 0 36px rgba(139,0,0,.45)) drop-shadow(0 8px 16px rgba(0,0,0,.98));}
+#dc-root.tier2 .dc-face.active{filter:drop-shadow(0 0 26px rgba(255,80,0,.85)) drop-shadow(0 0 55px rgba(200,0,0,.5)) drop-shadow(0 8px 18px rgba(0,0,0,.98));}
+#dc-root.tier3 .dc-face.active{filter:drop-shadow(0 0 40px rgba(255,0,0,1)) drop-shadow(0 0 85px rgba(255,80,0,.7)) drop-shadow(0 0 140px rgba(180,0,0,.4)) drop-shadow(0 8px 22px rgba(0,0,0,.98));animation:floatTier3 1.3s ease-in-out infinite,skullGlowPulse .8s ease-in-out infinite;}
+@keyframes skullGlowPulse{
+  0%,100%{filter:drop-shadow(0 0 40px rgba(255,0,0,1)) drop-shadow(0 0 85px rgba(255,80,0,.7)) drop-shadow(0 8px 22px rgba(0,0,0,.98));}
+  50%    {filter:drop-shadow(0 0 60px rgba(255,0,0,1)) drop-shadow(0 0 120px rgba(255,100,0,.9)) drop-shadow(0 8px 22px rgba(0,0,0,.98));}
+}
+
+/* Impact death/revive */
+.dc-face.hit   {animation:faceHit    .45s cubic-bezier(.36,0,.66,-.56) forwards!important;}
+.dc-face.revive{animation:faceRevive .5s  ease                          forwards!important;}
+@keyframes faceHit   {0%{transform:scale(1) rotate(0)}25%{transform:scale(1.22) rotate(-4deg)}55%{transform:scale(.87) rotate(3deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes faceRevive{0%{transform:scale(1) rotate(0)}35%{transform:scale(.8)   rotate(4deg)}100%{transform:scale(1) rotate(0)}}
+
+/* ── FUMÉE ORANGE ── */
+#dc-smoke{
+  position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden;
+}
+.sm{
+  position:absolute;border-radius:50%;
+  animation:smRise linear forwards;
+  pointer-events:none;
+}
+@keyframes smRise{
+  0%  {opacity:0; transform:translateY(0) translateX(0) scale(1);}
+  15% {opacity:.55;}
+  70% {opacity:.25;}
+  100%{opacity:0; transform:translateY(-220px) translateX(var(--sdx,20px)) scale(2.5);}
+}
+
+/* ── PLUIE DE SANG ── */
+#dc-blood-rain{
+  position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden;
+}
+.br{
+  position:absolute;
+  width:2.5px;border-radius:0 0 4px 4px;
+  background:linear-gradient(to bottom,#cc0000,#880000,transparent);
+  animation:brFall linear forwards;
+}
+@keyframes brFall{
+  0%  {opacity:0;transform:translateY(-10px);}
+  10% {opacity:.8;}
+  85% {opacity:.6;}
+  100%{opacity:0;transform:translateY(430px);}
+}
+
+/* ── VORTEX ── */
+#dc-vortex{position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden;}
+.vp{position:absolute;border-radius:50%;pointer-events:none;animation:vpOrbit linear infinite;}
+@keyframes vpOrbit{
+  0%  {transform:rotate(var(--a0))   translateX(var(--rad)) scale(1);}
+  50% {transform:rotate(var(--a50))  translateX(var(--rad)) scale(1.4);}
+  100%{transform:rotate(var(--a100)) translateX(var(--rad)) scale(.7);}
+}
+
+/* ── ÉCLAIRS ── */
+#dc-lightning{position:absolute;inset:0;z-index:5;pointer-events:none;overflow:hidden;}
+.lt{
+  position:absolute;width:2px;border-radius:1px;
+  transform-origin:top;
   animation:ltStrike .5s ease-out forwards;
 }
 @keyframes ltStrike{
@@ -293,87 +194,69 @@ body{background:transparent!important;overflow:hidden;}
   100%{height:60%;opacity:0;}
 }
 
-/* ══════════════════════════════════════════════════
-   COMPTEUR
-══════════════════════════════════════════════════ */
+/* ── BURST ── */
+#dc-burst{position:absolute;inset:0;pointer-events:none;z-index:6;overflow:hidden;}
+.bp{position:absolute;pointer-events:none;animation:dpRise linear forwards;}
+@keyframes dpRise{
+  0%  {opacity:1;  transform:translate(0,0) rotate(0) scale(1);}
+  50% {opacity:.7; transform:translate(var(--dx2),var(--dy2)) rotate(var(--r2)) scale(.7);}
+  100%{opacity:0;  transform:translate(var(--dx),var(--dy))   rotate(var(--r))  scale(.1);}
+}
+
+/* ── COMPTEUR ── */
 #dc-number-wrap{
-  position:relative;z-index:4;
-  margin-top:-14px;
-}
-/* Ombre décalée (effet chromatic aberration) */
-#dc-number-shadow{
   position:absolute;
-  top:3px;left:4px;
-  font-family:'Cinzel',serif;font-size:102px;font-weight:900;line-height:1;
-  color:var(--num-shd);
-  opacity:.35;
-  pointer-events:none;
+  bottom:18px;left:50%;transform:translateX(-50%);
+  z-index:7;
+  display:flex;align-items:center;justify-content:center;
 }
+#dc-number-shadow{
+  position:absolute;top:4px;left:5px;
+  font-family:'Cinzel',serif;font-size:108px;font-weight:900;line-height:1;
+  color:#ff2200;opacity:.25;pointer-events:none;
+  transition:color .4s;
+}
+#dc-root.tier0 #dc-number-shadow{color:#ffcc00;}
+#dc-root.tier1 #dc-number-shadow{color:#ff6600;}
+#dc-root.tier2 #dc-number-shadow{color:#ff2200;}
+#dc-root.tier3 #dc-number-shadow{color:#ff0000;}
+
 #dc-number{
   position:relative;
   font-family:'Cinzel',serif;
-  font-size:102px;font-weight:900;line-height:1;
-  color:var(--num-col);
+  font-size:108px;font-weight:900;line-height:1;
+  color:#ffffff;
   -webkit-text-stroke:3px #000;
   paint-order:stroke fill;
   text-shadow:
-    0 5px 10px rgba(0,0,0,.99),
+    0 5px 12px rgba(0,0,0,.99),
     0 3px 5px  rgba(0,0,0,.95),
-    4px 4px 8px rgba(0,0,0,.9),
-    -4px 4px 8px rgba(0,0,0,.9),
-    0 0 22px var(--num-sh),
-    0 0 45px var(--glow-b);
-  animation:numGlow 2.5s ease-in-out infinite;
+    5px 5px 10px rgba(0,0,0,.9),
+    -5px 5px 10px rgba(0,0,0,.9);
+  animation:numGlow 3s ease-in-out infinite;
   transition:color .4s,text-shadow .4s;
 }
-@keyframes numGlow{
-  0%,100%{text-shadow:0 5px 10px rgba(0,0,0,.99),4px 4px 8px rgba(0,0,0,.9),-4px 4px 8px rgba(0,0,0,.9),0 0 20px var(--num-sh),0 0 40px var(--glow-b);}
-  50%    {text-shadow:0 5px 10px rgba(0,0,0,.99),4px 4px 8px rgba(0,0,0,.9),-4px 4px 8px rgba(0,0,0,.9),0 0 35px var(--num-sh),0 0 70px var(--glow-a),0 0 110px var(--glow-b);}
-}
-/* Tier 3 */
-#dc-root.tier3 #dc-number{animation:numInfernal 1.3s ease-in-out infinite;}
-@keyframes numInfernal{
-  0%,100%{text-shadow:0 5px 10px rgba(0,0,0,.99),4px 4px 8px rgba(0,0,0,.9),-4px 4px 8px rgba(0,0,0,.9),0 0 30px var(--num-sh),0 0 60px var(--glow-a);}
-  50%    {text-shadow:0 5px 10px rgba(0,0,0,.99),4px 4px 8px rgba(0,0,0,.9),-4px 4px 8px rgba(0,0,0,.9),0 0 55px var(--num-sh),0 0 110px var(--glow-a),0 0 180px var(--glow-b);}
-}
+/* Couleur chiffre par tier */
+#dc-root.tier0 #dc-number{color:#ffe88a;animation:numGlowAngel 4s ease-in-out infinite;}
+#dc-root.tier1 #dc-number{color:#f0c060;animation:numGlowT1 3s ease-in-out infinite;}
+#dc-root.tier2 #dc-number{color:#ff8844;animation:numGlowT2 2s ease-in-out infinite;}
+#dc-root.tier3 #dc-number{color:#ffffff;-webkit-text-stroke:3px #aa0000;animation:numGlowT3 1.2s ease-in-out infinite;}
 
-/* Bump / drop */
+@keyframes numGlowAngel{0%,100%{text-shadow:0 5px 12px rgba(0,0,0,.99),5px 5px 10px rgba(0,0,0,.9),-5px 5px 10px rgba(0,0,0,.9),0 0 18px rgba(255,220,80,.5);}50%{text-shadow:0 5px 12px rgba(0,0,0,.99),5px 5px 10px rgba(0,0,0,.9),-5px 5px 10px rgba(0,0,0,.9),0 0 30px rgba(255,220,80,.8),0 0 55px rgba(255,180,0,.4);}}
+@keyframes numGlowT1{0%,100%{text-shadow:0 5px 12px rgba(0,0,0,.99),5px 5px 10px rgba(0,0,0,.9),-5px 5px 10px rgba(0,0,0,.9),0 0 18px rgba(200,146,42,.6);}50%{text-shadow:0 5px 12px rgba(0,0,0,.99),5px 5px 10px rgba(0,0,0,.9),-5px 5px 10px rgba(0,0,0,.9),0 0 32px rgba(200,146,42,.9),0 0 60px rgba(139,0,0,.4);}}
+@keyframes numGlowT2{0%,100%{text-shadow:0 5px 12px rgba(0,0,0,.99),5px 5px 10px rgba(0,0,0,.9),-5px 5px 10px rgba(0,0,0,.9),0 0 24px rgba(255,80,0,.8);}50%{text-shadow:0 5px 12px rgba(0,0,0,.99),5px 5px 10px rgba(0,0,0,.9),-5px 5px 10px rgba(0,0,0,.9),0 0 45px rgba(255,80,0,1),0 0 80px rgba(200,0,0,.5);}}
+@keyframes numGlowT3{0%,100%{text-shadow:0 5px 12px rgba(0,0,0,.99),5px 5px 10px rgba(0,0,0,.9),-5px 5px 10px rgba(0,0,0,.9),0 0 35px rgba(255,0,0,1),0 0 70px rgba(255,80,0,.7);}50%{text-shadow:0 5px 12px rgba(0,0,0,.99),5px 5px 10px rgba(0,0,0,.9),-5px 5px 10px rgba(0,0,0,.9),0 0 55px rgba(255,0,0,1),0 0 110px rgba(255,100,0,.9),0 0 170px rgba(200,0,0,.5);}}
+
+/* Bump/drop compteur */
 #dc-number.bump{animation:numBump .38s cubic-bezier(.34,1.56,.64,1) forwards!important;}
 @keyframes numBump{0%{transform:scale(1)}40%{transform:scale(1.28)}100%{transform:scale(1)}}
 #dc-number.drop{animation:numDrop .38s ease forwards!important;}
 @keyframes numDrop{0%{transform:scale(1)}40%{transform:scale(.75)}100%{transform:scale(1)}}
-
-/* Distorsion au changement */
 #dc-number.distort{animation:numDistort .6s ease forwards!important;}
 @keyframes numDistort{
-  0% {transform:scale(1) skewX(0);}
-  15%{transform:scale(1.2) skewX(-5deg) skewY(2deg);filter:blur(1px) hue-rotate(20deg);}
-  30%{transform:scale(.9) skewX(4deg)  skewY(-1deg);filter:blur(0);}
-  55%{transform:scale(1.12) skewX(-2deg);filter:blur(.5px);}
-  100%{transform:scale(1) skewX(0);filter:none;}
-}
-
-/* ══════════════════════════════════════════════════
-   PARTICULES
-══════════════════════════════════════════════════ */
-#dc-particles,#dc-vortex,#dc-burst{
-  position:absolute;inset:0;pointer-events:none;overflow:hidden;
-}
-#dc-particles{z-index:2;}
-#dc-vortex   {z-index:2;}
-#dc-burst    {z-index:6;}
-
-.dp{position:absolute;pointer-events:none;animation:dpRise linear forwards;}
-.vp{position:absolute;pointer-events:none;border-radius:50%;animation:vpOrbit linear infinite;}
-.bp{position:absolute;pointer-events:none;animation:dpRise linear forwards;}
-
-@keyframes dpRise{
-  0%  {opacity:.85;transform:translate(0,0) rotate(0) scale(1);}
-  50% {opacity:.6; transform:translate(var(--dx2),var(--dy2)) rotate(var(--r2)) scale(.7);}
-  100%{opacity:0;  transform:translate(var(--dx),var(--dy)) rotate(var(--r)) scale(.1);}
-}
-@keyframes vpOrbit{
-  0%  {transform:rotate(var(--a0))    translateX(var(--rad)) scale(1);}
-  50% {transform:rotate(var(--a50))   translateX(var(--rad)) scale(1.3);}
-  100%{transform:rotate(var(--a100))  translateX(var(--rad)) scale(.8);}
+  0%  {transform:scale(1) skewX(0);filter:none;}
+  15% {transform:scale(1.2) skewX(-5deg) skewY(2deg);filter:blur(1px) hue-rotate(20deg);}
+  35% {transform:scale(.92) skewX(4deg)  skewY(-1deg);filter:blur(0);}
+  60% {transform:scale(1.1) skewX(-2deg);}
+  100%{transform:scale(1)   skewX(0);filter:none;}
 }
