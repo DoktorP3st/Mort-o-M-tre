@@ -1,150 +1,124 @@
-# 💀 Mort-o-Mètre — Fonctionnement & Commandes
+# 💀 Mort-o-Mètre — Overlay StreamElements Interactif
 
-## 🔥 Présentation
-
-Le **Mort-o-Mètre** est un widget interactif qui affiche en temps réel le nombre de morts pendant ton stream, avec des effets visuels évolutifs inspirés d’un univers dark fantasy.
-
-👉 Plus tu meurs, plus le widget devient intense.
+> Widget custom pour **StreamElements** — affiche le nombre de morts en live avec 4 formes visuelles évolutives, des effets dynamiques et une persistance automatique entre les streams.
 
 ---
 
-## 🖼️ Aperçu
+## 🖼️ Les 4 Formes
 
-<p align="center">
-  <img src="https://i.imgur.com/KoRhG2W.png" width="600" alt="Mort-o-Mètre Preview 1">
-</p>
-
-<p align="center">
-  <img src="https://i.imgur.com/vtlgKDU.png" width="600" alt="Mort-o-Mètre Preview 2">
-</p>
-
-<p align="center">
-  <img src="https://i.imgur.com/dV9pjl9.png" width="600" alt="Mort-o-Mètre Preview 3">
-</p>
+| 0 mort | 1 mort | 2 morts | 3+ morts |
+|:------:|:------:|:-------:|:--------:|
+| ![0 mort](https://i.imgur.com/LL7cBQg.png) | ![1 mort](https://i.imgur.com/m1aMxij.png) | ![2 morts](https://i.imgur.com/CEFC2Aq.png) | ![3+ morts](https://i.imgur.com/ohsehzF.png) |
+| 👼 Ange paisible | 💀 Crâne calme | 💀 Crâne agité | 👹 Démon infernal |
 
 ---
 
-## ⚙️ Fonctionnement
+## ⚙️ Panneau de réglages
 
-### 🧠 Logique principale
-- Le compteur est stocké dynamiquement
-- Chaque modification déclenche :
-  - animation du crâne
-  - effets visuels
-  - mise à jour du compteur
+![Réglages](https://i.imgur.com/WJTycW0.png)
 
 ---
 
-### 📊 Système de progression (tiers)
+## 🎮 Commandes Chat
 
-- **0 – 4 morts** → état normal  
-- **5+ morts** → fissures apparaissent  
-- **10+ morts** → effets renforcés + sang  
-- **20+ morts** → mode chaos (max effets)
+### 🔓 Commandes publiques
 
-👉 Le widget évolue visuellement en fonction du nombre de morts.
+| Commande | Effet |
+|----------|-------|
+| `!deaths` | Force l'affichage du widget à l'écran |
 
----
+### 🔒 Commandes Mod / Broadcaster uniquement
 
-### 🎨 Thèmes visuels
-
-- ⚔ **Diablo** → or + feu + sang  
-- 🔥 **Infernal** → rouge + lave  
-- 🌑 **Shadow** → violet + nécromancie  
-
----
-
-## 💬 Commandes Chat
-
-### 🔓 Commande publique
-
-
-!deaths
-
-
-👉 Affiche le compteur à l’écran
+| Commande | Effet |
+|----------|-------|
+| `!mort 6` | Fixe directement à 6 |
+| `!mort +1` | Ajoute 1 mort |
+| `!mort -1` | Retire 1 mort |
+| `!mort reset` | Remet à zéro |
 
 ---
 
-### 🔒 Commandes mod / streamer
+## 🧠 Logique des 4 Formes
 
-#### ➕ Ajouter des morts
+```
+0 mort   → 👼 Tête d'ange  — auréole, ailes, visage paisible
+1 mort   → 💀 Crâne calme  — yeux orange doux, 1 fissure
+2 morts  → 💀 Crâne agité  — crocs, yeux jaune vif, sang des yeux, fissures multiples
+3+ morts → 👹 Démon        — cornes, crocs majeurs, yeux explosifs, sang partout
+```
 
-!mort
-!mort +1
-!mort +5
+Chaque forme a ses propres effets passifs : aura, vortex de particules, flammes, éclairs, pluie de sang.
 
+---
 
-#### ➖ Retirer des morts
+## ✨ Effets Dynamiques
 
-!mort -1
-!mort -3
+### Sur chaque mort (`!mort +N`)
+- 💥 Animation d'impact sur la forme active
+- ⚡ Éclairs depuis les coins (tier 2+)
+- 🔥 Burst de particules (de 12 à 45 selon le tier)
+- 🌊 Flash lumineux global
+- 🔢 Distorsion + bounce du compteur
 
+### En continu
+- 🌪️ Vortex de particules orbitant autour de la forme
+- 🩸 Pluie de sang (intensité croissante)
+- 🔥 Fumée colorée (orange → rouge → noir selon le tier)
+- 💫 Aura diffuse pulsante
+- ⚡ Éclairs aléatoires (tier 2+)
 
-#### 🔢 Définir une valeur précise
+### Apparition automatique
+- Le widget **apparaît toutes les 30 secondes** (réglable)
+- Reste visible **8 secondes** (réglable)
+- **Disparaît** avec une animation de dissolution
+- **Réapparaît** avec une animation d'explosion sur tier 3
 
-!mort 10
-!mort 25
+---
 
+## 🎛️ Paramètres Configurables (panel SE)
 
-#### ♻️ Reset
-
-!mort reset
-
+| Paramètre | Description |
+|-----------|-------------|
+| `deathCount` | Modifier le compteur directement depuis SE |
+| `smokeEnabled` | Activer / désactiver la fumée |
+| `bloodRainEnabled` | Activer / désactiver la pluie de sang |
+| `showDuration` | Durée d'affichage en secondes (3–30s) |
+| `cycleInterval` | Fréquence de réapparition auto (10–120s) |
 
 ---
 
 ## 👑 Permissions
 
-- ❌ Viewers → lecture uniquement  
-- ✅ Mods / Streamer → contrôle total  
+| Rôle | Droits |
+|------|--------|
+| 👁️ Viewer | `!deaths` uniquement |
+| 🔨 Modérateur | Toutes les commandes `!mort` |
+| 👑 Broadcaster | Toutes les commandes |
 
 ---
 
-## 🔄 Persistance
+## 💾 Persistance
 
-- Le compteur est sauvegardé automatiquement  
-- Aucun reset au redémarrage  
-
----
-
-## 🎛️ Paramètres configurables
-
-- `deathCount` → valeur de départ  
-- `visualTheme` → style visuel  
-- `showDuration` → durée affichage  
-- `cycleInterval` → réapparition automatique  
+- Le compteur est **sauvegardé automatiquement** via SE Store
+- **Aucun reset** au redémarrage du stream
+- Le total est conservé entre les sessions
 
 ---
 
-## ✨ Effets dynamiques
+## 📦 Installation
 
-Chaque mort déclenche :
-
-- 💥 animation du crâne  
-- ⚡ éclairs  
-- 🔥 particules  
-- 🩸 sang (haut niveau)  
-- 🌪️ distorsion visuelle  
-
----
-
-## 📌 Principe
-
-Ce widget n’est pas juste un compteur.
-
-👉 C’est un système évolutif :
-- plus tu meurs  
-- plus le visuel devient violent  
+1. Sur **StreamElements**, créer un nouveau **Custom Widget**
+2. Coller le contenu de chaque fichier dans l'onglet correspondant :
+   - `Mort-o-Mètre.html` → onglet **HTML**
+   - `Mort-o-Mètre.css` → onglet **CSS**
+   - `Mort-o-Mètre.js` → onglet **JS**
+   - `Mort-o-Mètre.json` → onglet **FIELDS**
+3. Sauvegarder et ajouter la source dans **OBS**
+4. Redimensionner dans OBS selon ta mise en page
 
 ---
 
-## 💡 Résumé rapide
+## 🔗 Liens
 
-- `!deaths` → afficher  
-- `!mort +X` → ajouter  
-- `!mort -X` → retirer  
-- `!mort X` → définir  
-- `!mort reset` → reset  
-
----
+- 📺 Stream : [twitch.tv/Paglorieux](https://twitch.tv/Paglorieux)
+- 🎮 Compte secondaire : [twitch.tv/Pestovich](https://twitch.tv/Pestovich)
