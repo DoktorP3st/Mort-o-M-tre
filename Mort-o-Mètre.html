@@ -6,7 +6,6 @@
   <div id="dc-blood-rain"></div>
 
   <!-- Aura diffuse (zéro fond, juste une lueur) -->
-  <div id="dc-aura"></div>
 
   <!-- Vortex particules -->
   <div id="dc-vortex"></div>
@@ -28,9 +27,9 @@
           <stop offset="60%"  stop-color="#ffcc44" stop-opacity=".2"/>
           <stop offset="100%" stop-color="#ffaa00" stop-opacity="0"/>
         </radialGradient>
-        <filter id="f0shadow">
-          <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#000" flood-opacity=".85"/>
-          <feDropShadow dx="0" dy="3" stdDeviation="6"  flood-color="#000" flood-opacity=".7"/>
+        <filter id="f0shadow" x="-40%" y="-40%" width="180%" height="180%">
+          <feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#000" flood-opacity=".8"/>
+          <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000" flood-opacity=".6"/>
         </filter>
         <filter id="f0glow">
           <feGaussianBlur stdDeviation="6" result="b"/>
@@ -84,9 +83,9 @@
           <stop offset="55%"  stop-color="#882200"/>
           <stop offset="100%" stop-color="#220000"/>
         </radialGradient>
-        <filter id="f1shadow">
-          <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#000" flood-opacity=".9"/>
-          <feDropShadow dx="0" dy="3" stdDeviation="5"  flood-color="#000" flood-opacity=".75"/>
+        <filter id="f1shadow" x="-40%" y="-40%" width="180%" height="180%">
+          <feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#000" flood-opacity=".85"/>
+          <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000" flood-opacity=".6"/>
         </filter>
         <filter id="f1eyeglow">
           <feGaussianBlur stdDeviation="4" result="b"/>
@@ -134,9 +133,9 @@
           <stop offset="40%"  stop-color="#ff4400"/>
           <stop offset="100%" stop-color="#1a0000"/>
         </radialGradient>
-        <filter id="f2shadow">
-          <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#000" flood-opacity=".92"/>
-          <feDropShadow dx="0" dy="4" stdDeviation="7"  flood-color="#550000" flood-opacity=".5"/>
+        <filter id="f2shadow" x="-40%" y="-40%" width="180%" height="180%">
+          <feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#000" flood-opacity=".85"/>
+          
         </filter>
         <filter id="f2eyeglow">
           <feGaussianBlur stdDeviation="6" result="b"/>
@@ -204,21 +203,20 @@
           <stop offset="50%"  stop-color="#880000" stop-opacity=".2"/>
           <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
         </radialGradient>
-        <filter id="f3shadow">
-          <feDropShadow dx="0" dy="0" stdDeviation="14" flood-color="#000"    flood-opacity=".95"/>
-          <feDropShadow dx="0" dy="0" stdDeviation="20" flood-color="#ff0000" flood-opacity=".3"/>
-          <feDropShadow dx="0" dy="5" stdDeviation="8"  flood-color="#000"    flood-opacity=".8"/>
+        <filter id="f3shadow" x="-40%" y="-40%" width="180%" height="180%">
+          <feDropShadow dx="0" dy="2" stdDeviation="5"  flood-color="#000" flood-opacity=".88"/>
+          
+          <feDropShadow dx="0" dy="4" stdDeviation="4"  flood-color="#000" flood-opacity=".6"/>
         </filter>
         <filter id="f3eyeglow">
           <feGaussianBlur stdDeviation="8" result="b"/>
           <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
-        <filter id="f3aurafilter">
+        <filter id="f3aurafilter" x="-60%" y="-60%" width="220%" height="220%">
           <feGaussianBlur stdDeviation="15"/>
         </filter>
       </defs>
-      <!-- Aura rouge massive -->
-      <ellipse cx="110" cy="118" rx="110" ry="110" fill="url(#f3aura)" filter="url(#f3aurafilter)"/>
+
       <!-- Cornes -->
       <path d="M72 52 L50 8  L85 44Z"  fill="#880000" filter="url(#f3shadow)"/>
       <path d="M148 52 L170 8 L135 44Z" fill="#880000" filter="url(#f3shadow)"/>
