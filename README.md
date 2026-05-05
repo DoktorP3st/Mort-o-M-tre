@@ -8,14 +8,14 @@
 
 | 0 mort | 1 mort | 2 morts | 3+ morts |
 |:------:|:------:|:-------:|:--------:|
-| ![0 mort](https://i.imgur.com/LL7cBQg.png) | ![1 mort](https://i.imgur.com/m1aMxij.png) | ![2 morts](https://i.imgur.com/CEFC2Aq.png) | ![3+ morts](https://i.imgur.com/ohsehzF.png) |
+| ![0 mort](https://i.imgur.com/LL7cBQg.png) | ![1 mort](https://i.imgur.com/wd3MjWF.png) | ![2 morts](https://i.imgur.com/ap01drf.png) | ![3+ morts](https://i.imgur.com/VNc6CiL.png) |
 | 👼 Ange paisible | 💀 Crâne calme | 💀 Crâne agité | 👹 Démon infernal |
 
 ---
 
 ## ⚙️ Panneau de réglages
 
-![Réglages](https://i.imgur.com/WJTycW0.png)
+![Réglages](https://i.imgur.com/ihmz7zg.png)
 
 ---
 
@@ -47,7 +47,7 @@
 3+ morts → 👹 Démon        — cornes, crocs majeurs, yeux explosifs, sang partout
 ```
 
-Chaque forme a ses propres effets passifs : aura, vortex de particules, flammes, éclairs, pluie de sang.
+Chaque forme a ses propres effets passifs : vortex de particules, éclairs, pluie de sang.
 
 ---
 
@@ -62,8 +62,7 @@ Chaque forme a ses propres effets passifs : aura, vortex de particules, flammes,
 
 ### En continu
 - 🌪️ Vortex de particules orbitant autour de la forme
-- 🩸 Pluie de sang (intensité croissante)
-- 🔥 Fumée colorée (orange → rouge → noir selon le tier)
+- 🩸 Pluie de sang (intensité réglable dans le panel)
 - 💫 Aura diffuse pulsante
 - ⚡ Éclairs aléatoires (tier 2+)
 
@@ -80,8 +79,8 @@ Chaque forme a ses propres effets passifs : aura, vortex de particules, flammes,
 | Paramètre | Description |
 |-----------|-------------|
 | `deathCount` | Modifier le compteur directement depuis SE |
-| `smokeEnabled` | Activer / désactiver la fumée |
 | `bloodRainEnabled` | Activer / désactiver la pluie de sang |
+| `bloodRainIntensity` | Intensité pluie de sang (1=légère → 10=torrentiel) |
 | `showDuration` | Durée d'affichage en secondes (3–30s) |
 | `cycleInterval` | Fréquence de réapparition auto (10–120s) |
 
