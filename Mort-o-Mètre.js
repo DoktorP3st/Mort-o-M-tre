@@ -109,32 +109,30 @@ function scheduleNext() {
 function spawnSmoke() {
   if (fd('smokeEnabled') === false || fd('smokeEnabled') === 'false') return;
   const tier = getTier();
-  if (tier === 0) return; // pas de fumée pour l'ange
-  const c = $('dc-smoke'); if (!c) return;
-  const el = document.createElement('div'); el.className = 'sm';
-  const x     = rand(30, 290);
-  const y     = rand(200, 360);
-  const sz    = rand(12, 40);
-  const dur   = rand(2.5, 5.5);
-  const dx    = rand(-30, 30);
-  // Couleur fumée par tier : orange=tier1, rouge=tier2, rouge-noir=tier3
-  const cols = [
-    '', // tier 0 jamais
-    'rgba(255,120,30,',
-    'rgba(200,40,0,',
-    'rgba(140,0,0,',
-  ];
-  const baseAlpha = [0, .35, .45, .55][tier] || .35;
-  el.style.cssText = `
-    left:${x}px; top:${y}px;
-    width:${sz}px; height:${sz}px;
-    background:radial-gradient(circle,${cols[tier]}${baseAlpha}) 0%,${cols[tier]}0) 70%);
-    --sdx:${dx}px;
-    animation-duration:${dur}s;
-    animation-delay:${rand(0,.3)}s;
-    filter:blur(${sz * .35}px);
-  `;
-  c.appendChild(el);
+  if (tier === 0) return;
+  const cont = $('dc-smoke'); if (!cont) return;
+  const el  = document.createElement('div'); el.className = 'sm';
+  // Spawn concentré autour du crâne, pas sur tout le canvas
+  const x   = rand(90, 230);
+  const y   = rand(200, 310);
+  const sz  = rand(40, 90);  // grand pour rester visible après blur
+  const dur = rand(3, 6);
+  const dx  = rand(-40, 40);
+  const cols   = ['','rgba(255,130,40,','rgba(210,50,0,','rgba(160,10,0,'];
+  const alphas = [0, .6, .7, .75];
+  const col    = cols[tier];
+  const alpha  = alphas[tier] || .6;
+  const blurPx = 8; // blur fixe modéré
+  el.style.left             = x + 'px';
+  el.style.top              = y + 'px';
+  el.style.width            = sz + 'px';
+  el.style.height           = sz + 'px';
+  el.style.background       = `radial-gradient(circle,${col}${alpha}) 0%,${col}0) 75%)`;
+  el.style.filter           = `blur(${blurPx}px)`;
+  el.style.animationDuration= dur + 's';
+  el.style.animationDelay   = rand(0,.3) + 's';
+  el.style.setProperty('--sdx', dx + 'px'); // CSS var via setProperty (cssText l'ignore)
+  cont.appendChild(el);
   el.addEventListener('animationend', ()=>{ try{el.remove();}catch(e){} });
 }
 
@@ -145,7 +143,7 @@ function spawnBloodDrop() {
   if (fd('bloodRainEnabled') === false || fd('bloodRainEnabled') === 'false') return;
   const c = $('dc-blood-rain'); if (!c) return;
   const el  = document.createElement('div'); el.className = 'br';
-  const x   = rand(0, 320);
+  const x   = rand(80, 240);  // zone étroite autour du crâne
   const h   = rand(18, 45);
   const dur = rand(0.8, 2.2);
   const tier = getTier();
