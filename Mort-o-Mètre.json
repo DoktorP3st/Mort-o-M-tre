@@ -1,22 +1,11 @@
 {
-  "widgetName": {
-    "type": "hidden",
-    "value": "💀 Mort-o-Mètre — 4 Formes"
-  },
+  "widgetName": { "type": "hidden", "value": "💀 Mort-o-Mètre — 4 Formes" },
+
   "deathCount": {
     "type": "number",
     "label": "💀 Nombre de morts (régler ici directement)",
-    "value": 0,
-    "min": 0,
-    "max": 9999,
-    "step": 1,
+    "value": 0, "min": 0, "max": 9999, "step": 1,
     "group": "💀 Compteur"
-  },
-  "smokeEnabled": {
-    "type": "checkbox",
-    "label": "🔥 Fumée orange/rouge (désactiver si trop chargé)",
-    "value": true,
-    "group": "✨ Effets"
   },
   "bloodRainEnabled": {
     "type": "checkbox",
@@ -24,22 +13,23 @@
     "value": true,
     "group": "✨ Effets"
   },
+  "bloodRainIntensity": {
+    "type": "slider",
+    "label": "🩸 Intensité pluie de sang (1=légère → 10=torrentiel)",
+    "value": 5, "min": 1, "max": 10, "step": 1,
+    "group": "✨ Effets"
+  },
+
   "showDuration": {
     "type": "slider",
     "label": "Durée d'affichage (secondes)",
-    "value": 8,
-    "min": 3,
-    "max": 30,
-    "step": 1,
+    "value": 8, "min": 3, "max": 30, "step": 1,
     "group": "⏱️ Timing"
   },
   "cycleInterval": {
     "type": "slider",
     "label": "Réapparition auto toutes les X secondes",
-    "value": 30,
-    "min": 10,
-    "max": 120,
-    "step": 5,
+    "value": 30, "min": 10, "max": 120, "step": 5,
     "group": "⏱️ Timing"
   }
 }
