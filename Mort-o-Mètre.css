@@ -1,451 +1,226 @@
 /* ══════════════════════════════════════════════════
-   MORT-O-MÈTRE — 4 Formes | ZÉRO FOND | JS
-   Formes : 0=ange  1=crâne calme  2=crâne agité  3+=démon
-   Toggles : fumée orange, pluie de sang
-   Commandes : !mort N/+N/-N/reset | !deaths
-   Persistance : SE Store
+   MORT-O-MÈTRE — 4 Formes | ZÉRO FOND | CSS
 ══════════════════════════════════════════════════ */
-'use strict';
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@900&display=swap');
 
-let deaths     = 0;
-let record     = 0;
-let FD         = {};
-let visible    = false;
-let hideTimer  = null;
-let showTimer  = null;
-let smokeTimer = null;
-let bloodTimer = null;
-let vortexInt  = null;
-let ltTimer    = null;
-let vortexAngle= 0;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:transparent!important;overflow:hidden;}
 
-const fd    = k => FD[k];
-const $     = id => document.getElementById(id);
-const rand   = (a,b) => Math.random()*(b-a)+a;
-const rint   = (a,b) => Math.floor(rand(a,b+1));
-const clamp  = (v,lo,hi) => Math.min(Math.max(v,lo),hi);
-const num    = (v,d) => { const n=parseInt(v); return isNaN(n)?d:n; };
-const SHOW_DUR  = () => num(fd('showDuration'),  8) * 1000;
-const CYCLE_INT = () => num(fd('cycleInterval'), 30) * 1000;
-
-/* ══════════════════════════════════════════════════
-   TIER (0=ange 1=calme 2=agité 3+=démon)
-══════════════════════════════════════════════════ */
-function getTier() {
-  if (deaths === 0) return 0;
-  if (deaths === 1) return 1;
-  if (deaths === 2) return 2;
-  return 3;
+/* ── RACINE : zéro fond, zéro border ── */
+#dc-root{
+  position:relative;
+  width:320px;height:420px;
+  background:transparent!important;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  user-select:none;
+  opacity:0;transition:opacity .5s ease;
+}
+#dc-root.visible{opacity:1;}
+#dc-root.appearing   {animation:dcIn  .75s cubic-bezier(.22,1,.36,1) forwards;}
+#dc-root.disappearing{animation:dcOut .6s  ease                      forwards;}
+@keyframes dcIn {
+  0%  {opacity:0;transform:scale(.15) rotate(-8deg);}
+  40% {opacity:1;transform:scale(1.08) rotate(2deg);}
+  70% {transform:scale(.97) rotate(-1deg);}
+  100%{opacity:1;transform:scale(1) rotate(0);}
+}
+@keyframes dcOut{
+  0%  {opacity:1;transform:scale(1);}
+  40% {transform:scale(1.06);}
+  100%{opacity:0;transform:scale(.12) rotate(6deg);}
+}
+/* Tier 3 apparition spéciale */
+#dc-root.appearing.tier3{animation:dcInfernal 1s cubic-bezier(.22,1,.36,1) forwards;}
+@keyframes dcInfernal{
+  0% {opacity:0;transform:translateY(-50px) scale(.1);}
+  20%{opacity:1;transform:translateY(0) scale(1.3);filter:brightness(4) saturate(3);}
+  45%{transform:scale(.93);filter:brightness(1.5);}
+  70%{transform:scale(1.04);filter:brightness(1);}
+  100%{opacity:1;transform:scale(1);filter:none;}
 }
 
-function applyTier() {
-  const root = $('dc-root');
-  root.classList.remove('tier0','tier1','tier2','tier3');
-  root.classList.add('tier' + getTier());
+/* Tier 0 : halo doré angélique */
+/* Tier 1 : lueur orange douce */
+/* Tier 2 : rouge plus intense */
+/* Tier 3 : INFERNO */
+
+/* ── VISAGES ── */
+.dc-face{
+  position:absolute;
+  width:210px;height:240px;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .5s ease,transform .5s cubic-bezier(.22,1,.36,1);
+  transform:scale(.85);
+  z-index:3;
+}
+.dc-face.active{opacity:1;pointer-events:auto;transform:scale(1);}
+.dc-face svg{width:100%;height:100%;}
+
+/* ── ANIMATION FLOTTAISON PAR TIER ── */
+#dc-root.tier0 .dc-face.active{animation:floatAngel 5s ease-in-out infinite;}
+@keyframes floatAngel{
+  0%,100%{transform:translateY(0) rotate(0);}
+  30%    {transform:translateY(-12px) rotate(-1deg);}
+  70%    {transform:translateY(-6px)  rotate(1deg);}
+}
+#dc-root.tier1 .dc-face.active{animation:floatTier1 4s ease-in-out infinite;}
+@keyframes floatTier1{
+  0%,100%{transform:translateY(0) rotate(0);}
+  25%    {transform:translateY(-9px) rotate(-1.5deg);}
+  75%    {transform:translateY(-4px) rotate(1.5deg);}
+}
+#dc-root.tier2 .dc-face.active{animation:floatTier2 2.5s ease-in-out infinite;}
+@keyframes floatTier2{
+  0%,100%{transform:translateY(0) rotate(0) scale(1);}
+  30%    {transform:translateY(-12px) rotate(-2.5deg) scale(1.025);}
+  70%    {transform:translateY(-5px)  rotate(2.5deg) scale(.975);}
+}
+#dc-root.tier3 .dc-face.active{animation:floatTier3 1.3s ease-in-out infinite;}
+@keyframes floatTier3{
+  0%,100%{transform:translateY(0) rotate(0) scale(1);}
+  15%    {transform:translateY(-13px) rotate(-3deg) scale(1.04);}
+  35%    {transform:translateY(-4px)  rotate(2.5deg) scale(.96);}
+  55%    {transform:translateY(-15px) rotate(-2deg) scale(1.05);}
+  75%    {transform:translateY(-5px)  rotate(2deg) scale(.97);}
 }
 
-/* ══════════════════════════════════════════════════
-   FORMES SVG
-══════════════════════════════════════════════════ */
-function showFace(tier) {
-  // Retire active de tout le monde
-  ['face-0','face-1','face-2','face-3'].forEach(id => {
-    $( id)?.classList.remove('active');
-  });
-  const faceId = tier >= 3 ? 'face-3' : 'face-' + tier;
-  $( faceId)?.classList.add('active');
+/* ── FILTER GLOW PAR TIER ── */
+#dc-root.tier0 .dc-face.active{filter:drop-shadow(0 0 8px rgba(255,220,80,.5)) drop-shadow(0 4px 8px rgba(0,0,0,.95));}
+#dc-root.tier1 .dc-face.active{filter:drop-shadow(0 0 12px rgba(200,100,0,.7)) drop-shadow(0 4px 8px rgba(0,0,0,.95));}
+#dc-root.tier2 .dc-face.active{filter:drop-shadow(0 0 16px rgba(255,50,0,.8)) drop-shadow(0 4px 8px rgba(0,0,0,.95));}
+#dc-root.tier3 .dc-face.active{filter:drop-shadow(0 0 18px rgba(255,0,0,.95)) drop-shadow(0 4px 8px rgba(0,0,0,.95));animation:floatTier3 1.3s ease-in-out infinite,skullGlowPulse .8s ease-in-out infinite;}
+@keyframes skullGlowPulse{
+  0%,100%{filter:drop-shadow(0 0 14px rgba(255,0,0,.85)) drop-shadow(0 4px 8px rgba(0,0,0,.95));}
+  50%    {filter:drop-shadow(0 0 22px rgba(255,0,0,1)) drop-shadow(0 4px 8px rgba(0,0,0,.95));}
 }
 
-/* ══════════════════════════════════════════════════
-   RENDER
-══════════════════════════════════════════════════ */
-function render() {
-  const numEl    = $('dc-number');
-  const shadowEl = $('dc-number-shadow');
-  if (numEl)    numEl.textContent    = deaths;
-  if (shadowEl) shadowEl.textContent = deaths;
-  applyTier();
-  showFace(getTier());
-  restartAmbient();
+/* Impact death/revive */
+.dc-face.hit   {animation:faceHit    .45s cubic-bezier(.36,0,.66,-.56) forwards!important;}
+.dc-face.revive{animation:faceRevive .5s  ease                          forwards!important;}
+@keyframes faceHit   {0%{transform:scale(1) rotate(0)}25%{transform:scale(1.22) rotate(-4deg)}55%{transform:scale(.87) rotate(3deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes faceRevive{0%{transform:scale(1) rotate(0)}35%{transform:scale(.8)   rotate(4deg)}100%{transform:scale(1) rotate(0)}}
+
+/* ── FUMÉE ORANGE ── */
+#dc-smoke{
+  position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden;
+}
+.sm{
+  position:absolute;border-radius:50%;
+  animation:smRise linear forwards;
+  pointer-events:none;
+}
+@keyframes smRise{
+  0%  {opacity:0; transform:translateY(0) translateX(0) scale(1);}
+  15% {opacity:.55;}
+  70% {opacity:.25;}
+  100%{opacity:0; transform:translateY(-220px) translateX(var(--sdx,20px)) scale(2.5);}
 }
 
-/* ══════════════════════════════════════════════════
-   SHOW / HIDE
-══════════════════════════════════════════════════ */
-function show(duration) {
-  const root = $('dc-root');
-  clearTimeout(hideTimer);
-  root.classList.remove('disappearing','appearing','visible');
-  void root.offsetWidth;
-  root.classList.add('visible','appearing');
-  visible = true;
-  setTimeout(() => root.classList.remove('appearing'), 1100);
-  const dur = duration || SHOW_DUR();
-  hideTimer = setTimeout(hide, dur);
-  scheduleNext();
-  restartAmbient();
+/* ── PLUIE DE SANG ── */
+#dc-blood-rain{
+  position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden;
+}
+.br{
+  position:absolute;
+  width:2.5px;border-radius:0 0 4px 4px;
+  background:linear-gradient(to bottom,#cc0000,#880000,transparent);
+  animation:brFall linear forwards;
+}
+@keyframes brFall{
+  0%  {opacity:0;transform:translateY(-10px);}
+  10% {opacity:.8;}
+  85% {opacity:.6;}
+  100%{opacity:0;transform:translateY(430px);}
 }
 
-function hide() {
-  const root = $('dc-root');
-  clearTimeout(hideTimer);
-  stopAmbient();
-  root.classList.remove('appearing');
-  root.classList.add('disappearing');
-  setTimeout(() => {
-    root.classList.remove('visible','disappearing');
-    visible = false;
-  }, 700);
+/* ── VORTEX ── */
+#dc-vortex{position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden;}
+.vp{position:absolute;border-radius:50%;pointer-events:none;animation:vpOrbit linear infinite;}
+@keyframes vpOrbit{
+  0%  {transform:rotate(var(--a0))   translateX(var(--rad)) scale(1);}
+  50% {transform:rotate(var(--a50))  translateX(var(--rad)) scale(1.4);}
+  100%{transform:rotate(var(--a100)) translateX(var(--rad)) scale(.7);}
 }
 
-function scheduleNext() {
-  clearTimeout(showTimer);
-  showTimer = setTimeout(() => show(), CYCLE_INT());
+/* ── ÉCLAIRS ── */
+#dc-lightning{position:absolute;inset:0;z-index:5;pointer-events:none;overflow:hidden;}
+.lt{
+  position:absolute;width:2px;border-radius:1px;
+  transform-origin:top;
+  animation:ltStrike .5s ease-out forwards;
+}
+@keyframes ltStrike{
+  0% {height:0;opacity:.9;}
+  35%{height:55%;opacity:1;}
+  65%{height:60%;opacity:.6;}
+  100%{height:60%;opacity:0;}
 }
 
-/* ══════════════════════════════════════════════════
-   FUMÉE ORANGE
-══════════════════════════════════════════════════ */
-function spawnSmoke() {
-  if (fd('smokeEnabled') === false || fd('smokeEnabled') === 'false') return;
-  const tier = getTier();
-  if (tier === 0) return; // pas de fumée pour l'ange
-  const c = $('dc-smoke'); if (!c) return;
-  const el = document.createElement('div'); el.className = 'sm';
-  const x     = rand(30, 290);
-  const y     = rand(200, 360);
-  const sz    = rand(12, 40);
-  const dur   = rand(2.5, 5.5);
-  const dx    = rand(-30, 30);
-  // Couleur fumée par tier : orange=tier1, rouge=tier2, rouge-noir=tier3
-  const cols = [
-    '', // tier 0 jamais
-    'rgba(255,120,30,',
-    'rgba(200,40,0,',
-    'rgba(140,0,0,',
-  ];
-  const baseAlpha = [0, .35, .45, .55][tier] || .35;
-  el.style.cssText = `
-    left:${x}px; top:${y}px;
-    width:${sz}px; height:${sz}px;
-    background:radial-gradient(circle,${cols[tier]}${baseAlpha}) 0%,${cols[tier]}0) 70%);
-    --sdx:${dx}px;
-    animation-duration:${dur}s;
-    animation-delay:${rand(0,.3)}s;
-    filter:blur(${sz * .35}px);
-  `;
-  c.appendChild(el);
-  el.addEventListener('animationend', ()=>{ try{el.remove();}catch(e){} });
+/* ── BURST ── */
+#dc-burst{position:absolute;inset:0;pointer-events:none;z-index:6;overflow:hidden;}
+.bp{position:absolute;pointer-events:none;animation:dpRise linear forwards;}
+@keyframes dpRise{
+  0%  {opacity:1;  transform:translate(0,0) rotate(0) scale(1);}
+  50% {opacity:.7; transform:translate(var(--dx2),var(--dy2)) rotate(var(--r2)) scale(.7);}
+  100%{opacity:0;  transform:translate(var(--dx),var(--dy))   rotate(var(--r))  scale(.1);}
 }
 
-/* ══════════════════════════════════════════════════
-   PLUIE DE SANG
-══════════════════════════════════════════════════ */
-function spawnBloodDrop() {
-  if (fd('bloodRainEnabled') === false || fd('bloodRainEnabled') === 'false') return;
-  const c = $('dc-blood-rain'); if (!c) return;
-  const el  = document.createElement('div'); el.className = 'br';
-  const x   = rand(0, 320);
-  const h   = rand(18, 45);
-  const dur = rand(0.8, 2.2);
-  const tier = getTier();
-  const alpha = [0, .5, .75, 1][tier] || .5;
-  el.style.cssText = `left:${x}px; top:-30px; height:${h}px; opacity:${alpha}; animation-duration:${dur}s; animation-delay:${rand(0,.4)}s;`;
-  c.appendChild(el);
-  el.addEventListener('animationend', ()=>{ try{el.remove();}catch(e){} });
+/* ── COMPTEUR ── */
+#dc-number-wrap{
+  position:absolute;
+  bottom:18px;left:50%;transform:translateX(-50%);
+  z-index:7;
+  display:flex;align-items:center;justify-content:center;
 }
-
-/* ══════════════════════════════════════════════════
-   VORTEX DE PARTICULES
-══════════════════════════════════════════════════ */
-function spawnVortex() {
-  const tier = getTier();
-  if (tier === 0) return;
-  const c = $('dc-vortex'); if (!c) return;
-  const radii = [0, 55, 65, 78][tier] || 55;
-  const speed = [0, 11, 7, 3.5][tier] || 8;
-  const cols  = [
-    [],
-    ['#c8922a','#ff6b00','#f0c060'],
-    ['#ff4400','#ff8800','#cc0000'],
-    ['#ff0000','#ff4400','#ff8800','#ffcc00'],
-  ][tier] || [];
-
-  const count = [0, 2, 4, 8][tier] || 2;
-  for (let i = 0; i < count; i++) {
-    const el = document.createElement('div'); el.className = 'vp';
-    const angle = (vortexAngle + i * (360 / count)) % 360;
-    const a0    = angle;
-    const a50   = (angle + 180) % 360;
-    const a100  = (angle + 360) % 360;
-    const sz    = rand(3, 7);
-    const col   = cols[rint(0, cols.length-1)];
-    el.style.cssText = `
-      left:calc(50% - ${sz/2}px); top:calc(42% - ${sz/2}px);
-      width:${sz}px; height:${sz}px;
-      background-color:${col}; border-radius:50%;
-      box-shadow:0 0 ${sz*2.5}px ${col};
-      --rad:${radii + rand(-5,5)}px;
-      --a0:${a0}deg; --a50:${a50}deg; --a100:${a100}deg;
-      animation-duration:${speed + rand(-1,1)}s;
-      animation-delay:${rand(0, speed*.5)}s;
-      opacity:${rand(.55,.9)};
-    `;
-    c.appendChild(el);
-  }
-  vortexAngle = (vortexAngle + 18) % 360;
-  // Nettoyer si trop
-  while (c.children.length > 80) c.removeChild(c.firstChild);
+#dc-number-shadow{
+  position:absolute;top:4px;left:5px;
+  font-family:'Cinzel',serif;font-size:108px;font-weight:900;line-height:1;
+  color:#ff2200;opacity:.25;pointer-events:none;
+  transition:color .4s;
 }
+#dc-root.tier0 #dc-number-shadow{color:#ffcc00;}
+#dc-root.tier1 #dc-number-shadow{color:#ff6600;}
+#dc-root.tier2 #dc-number-shadow{color:#ff2200;}
+#dc-root.tier3 #dc-number-shadow{color:#ff0000;}
 
-/* ══════════════════════════════════════════════════
-   ÉCLAIRS
-══════════════════════════════════════════════════ */
-function spawnLightning() {
-  const tier = getTier();
-  if (tier < 2) return;
-  const c = $('dc-lightning'); if (!c) return;
-  const count = tier === 3 ? 4 : 2;
-  for (let i = 0; i < count; i++) setTimeout(() => {
-    const el = document.createElement('div'); el.className = 'lt';
-    const side = Math.random() > .5 ? 'left' : 'right';
-    const x    = side === 'left' ? rand(15, 100) : rand(220, 305);
-    const rot  = side === 'left' ? rand(8, 22) : rand(-22, -8);
-    const col  = tier === 3 ? '#ff0000' : '#ff6600';
-    el.style.cssText = `top:0; left:${x}px; transform:rotate(${rot}deg);
-      background:linear-gradient(${col},transparent);
-      box-shadow:0 0 10px ${col},0 0 20px rgba(255,100,0,.4);
-      animation-duration:.5s;`;
-    c.appendChild(el);
-    el.addEventListener('animationend', ()=>{ try{el.remove();}catch(e){} });
-  }, i * rand(40, 100));
+#dc-number{
+  position:relative;
+  font-family:'Cinzel',serif;
+  font-size:108px;font-weight:900;line-height:1;
+  color:#ffffff;
+  -webkit-text-stroke:3px #000;
+  paint-order:stroke fill;
+  text-shadow:
+    0 5px 12px rgba(0,0,0,.99),
+    0 3px 5px  rgba(0,0,0,.95),
+    5px 5px 10px rgba(0,0,0,.9),
+    -5px 5px 10px rgba(0,0,0,.9);
+  animation:numGlow 3s ease-in-out infinite;
+  transition:color .4s,text-shadow .4s;
 }
+/* Couleur chiffre par tier */
+#dc-root.tier0 #dc-number{color:#ffe88a;animation:numGlowAngel 4s ease-in-out infinite;}
+#dc-root.tier1 #dc-number{color:#f0c060;animation:numGlowT1 3s ease-in-out infinite;}
+#dc-root.tier2 #dc-number{color:#ff8844;animation:numGlowT2 2s ease-in-out infinite;}
+#dc-root.tier3 #dc-number{color:#ffffff;-webkit-text-stroke:3px #aa0000;animation:numGlowT3 1.2s ease-in-out infinite;}
 
-/* ══════════════════════════════════════════════════
-   GESTION AMBIANTS
-══════════════════════════════════════════════════ */
-function stopAmbient() {
-  clearInterval(smokeTimer);
-  clearInterval(bloodTimer);
-  clearInterval(vortexInt);
-  clearInterval(ltTimer);
+@keyframes numGlowAngel{0%,100%{text-shadow:0 5px 12px rgba(0,0,0,.99),5px 5px 10px rgba(0,0,0,.9),-5px 5px 10px rgba(0,0,0,.9),0 0 18px rgba(255,220,80,.5);}50%{text-shadow:0 5px 12px rgba(0,0,0,.99),5px 5px 10px rgba(0,0,0,.9),-5px 5px 10px rgba(0,0,0,.9),0 0 30px rgba(255,220,80,.8),0 0 55px rgba(255,180,0,.4);}}
+@keyframes numGlowT1{0%,100%{text-shadow:0 5px 12px rgba(0,0,0,.99),5px 5px 10px rgba(0,0,0,.9),-5px 5px 10px rgba(0,0,0,.9),0 0 18px rgba(200,146,42,.6);}50%{text-shadow:0 5px 12px rgba(0,0,0,.99),5px 5px 10px rgba(0,0,0,.9),-5px 5px 10px rgba(0,0,0,.9),0 0 32px rgba(200,146,42,.9),0 0 60px rgba(139,0,0,.4);}}
+@keyframes numGlowT2{0%,100%{text-shadow:0 5px 12px rgba(0,0,0,.99),5px 5px 10px rgba(0,0,0,.9),-5px 5px 10px rgba(0,0,0,.9),0 0 24px rgba(255,80,0,.8);}50%{text-shadow:0 5px 12px rgba(0,0,0,.99),5px 5px 10px rgba(0,0,0,.9),-5px 5px 10px rgba(0,0,0,.9),0 0 45px rgba(255,80,0,1),0 0 80px rgba(200,0,0,.5);}}
+@keyframes numGlowT3{0%,100%{text-shadow:0 5px 12px rgba(0,0,0,.99),5px 5px 10px rgba(0,0,0,.9),-5px 5px 10px rgba(0,0,0,.9),0 0 35px rgba(255,0,0,1),0 0 70px rgba(255,80,0,.7);}50%{text-shadow:0 5px 12px rgba(0,0,0,.99),5px 5px 10px rgba(0,0,0,.9),-5px 5px 10px rgba(0,0,0,.9),0 0 55px rgba(255,0,0,1),0 0 110px rgba(255,100,0,.9),0 0 170px rgba(200,0,0,.5);}}
+
+/* Bump/drop compteur */
+#dc-number.bump{animation:numBump .38s cubic-bezier(.34,1.56,.64,1) forwards!important;}
+@keyframes numBump{0%{transform:scale(1)}40%{transform:scale(1.28)}100%{transform:scale(1)}}
+#dc-number.drop{animation:numDrop .38s ease forwards!important;}
+@keyframes numDrop{0%{transform:scale(1)}40%{transform:scale(.75)}100%{transform:scale(1)}}
+#dc-number.distort{animation:numDistort .6s ease forwards!important;}
+@keyframes numDistort{
+  0%  {transform:scale(1) skewX(0);filter:none;}
+  15% {transform:scale(1.2) skewX(-5deg) skewY(2deg);filter:blur(1px) hue-rotate(20deg);}
+  35% {transform:scale(.92) skewX(4deg)  skewY(-1deg);filter:blur(0);}
+  60% {transform:scale(1.1) skewX(-2deg);}
+  100%{transform:scale(1)   skewX(0);filter:none;}
 }
-
-function restartAmbient() {
-  stopAmbient();
-  if (!visible) return;
-  const tier = getTier();
-
-  // Fumée
-  const smIntervals = [0, 900, 550, 280][tier] || 0;
-  if (smIntervals > 0) {
-    smokeTimer = setInterval(spawnSmoke, smIntervals);
-    spawnSmoke(); spawnSmoke();
-  }
-
-  // Pluie de sang
-  const brIntervals = [0, 400, 180, 80][tier] || 0;
-  if (brIntervals > 0) {
-    bloodTimer = setInterval(spawnBloodDrop, brIntervals);
-    spawnBloodDrop(); spawnBloodDrop(); spawnBloodDrop(); spawnBloodDrop(); spawnBloodDrop();
-  }
-
-  // Vortex
-  if (tier > 0) {
-    vortexInt = setInterval(spawnVortex, 400);
-    spawnVortex();
-  }
-
-  // Éclairs
-  const ltIntervals = [0, 0, 5000, 1800][tier] || 0;
-  if (ltIntervals > 0) {
-    ltTimer = setInterval(spawnLightning, ltIntervals);
-    spawnLightning();
-  }
-}
-
-/* ══════════════════════════════════════════════════
-   ANIMATIONS EVENT
-══════════════════════════════════════════════════ */
-function animateEvent(delta) {
-  const tier    = getTier();
-  const faceId  = tier >= 3 ? 'face-3' : 'face-' + tier;
-  const faceEl  = $(faceId);
-  const numEl   = $('dc-number');
-  const shEl    = $('dc-number-shadow');
-
-  // Flash visage
-  if (faceEl) {
-    faceEl.classList.remove('hit','revive');
-    void faceEl.offsetWidth;
-    faceEl.className = faceEl.className.replace('hit','').replace('revive','').trim();
-    faceEl.classList.add(delta >= 0 ? 'hit' : 'revive');
-    setTimeout(() => { faceEl.classList.remove('hit','revive'); }, 520);
-  }
-
-  // Compteur
-  if (numEl) {
-    numEl.classList.remove('bump','drop','distort');
-    void numEl.offsetWidth;
-    numEl.classList.add(delta >= 0 ? 'bump' : 'drop', 'distort');
-    if (shEl) { shEl.classList.remove('bump','drop'); void shEl.offsetWidth; shEl.classList.add(delta >= 0 ? 'bump' : 'drop'); }
-    setTimeout(() => { numEl.classList.remove('bump','drop','distort'); if(shEl)shEl.classList.remove('bump','drop'); }, 650);
-  }
-
-  // Flash lumineux global
-  const root = $('dc-root');
-  root.style.filter = delta >= 0 ? 'brightness(2.5) saturate(2.5)' : 'brightness(2) hue-rotate(120deg)';
-  setTimeout(() => root.style.filter = '', 100);
-
-  // Burst particules
-  burstParticles(delta);
-
-  // Éclairs immédiats (tier 2+)
-  if (tier >= 2) { for(let i=0;i<3;i++) setTimeout(spawnLightning, i*70); }
-
-
-}
-
-function burstParticles(delta) {
-  const c    = $('dc-burst'); if (!c) return;
-  const tier = getTier();
-  const n    = [5, 12, 22, 45][tier] || 10;
-  const col  = delta >= 0
-    ? ['#ffcc00','#cc0000','#ff4400','#ff0000'][tier]
-    : '#9900ff';
-  const col2 = delta >= 0
-    ? ['#ffaa00','#ff6600','#ff8800','#ff6600'][tier]
-    : '#cc44ff';
-  const chars = delta >= 0 ? ['💀','🦴','★','◆','⚡','✦','🔥'] : ['✦','★','◆','⬟','☽'];
-
-  for (let i=0; i<n; i++) setTimeout(() => {
-    const el = document.createElement('div'); el.className = 'bp';
-    const ch  = chars[rint(0, chars.length-1)];
-    const c2  = Math.random() > .5 ? col : col2;
-    const x   = rand(20, 300), y = rand(50, 320);
-    const dx  = rand(-180, 180), dy = rand(-240, -20);
-    const dx2 = rand(-70, 70),   dy2 = rand(-100, -10);
-    const r   = rand(-720, 720), r2  = rand(-360, 360);
-    const dur = rand(.6, 2.8),   sz  = rand(14, 42);
-    el.textContent = ch;
-    el.style.cssText = `left:${x}px;top:${y}px;font-size:${sz}px;color:${c2};
-      text-shadow:0 0 12px ${c2},0 0 28px ${c2};opacity:1;
-      --dx:${dx}px;--dy:${dy}px;--dx2:${dx2}px;--dy2:${dy2}px;
-      --r:${r}deg;--r2:${r2}deg;animation-duration:${dur}s;`;
-    c.appendChild(el);
-    el.addEventListener('animationend', ()=>{ try{el.remove();}catch(e){} });
-  }, i * 22);
-}
-
-function milestone(text) {
-  const el = document.createElement('div');
-  el.style.cssText = `
-    position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);
-    z-index:20;pointer-events:none;
-    font-family:'Cinzel',serif;font-weight:900;font-size:32px;
-    color:#ff2200;letter-spacing:.12em;text-transform:uppercase;
-    text-shadow:0 0 20px #ff0000,0 0 45px #ff4400;
-    -webkit-text-stroke:2px #000;
-    white-space:nowrap;
-    animation:mileAnim 2.8s ease forwards;
-  `;
-  el.textContent = '☠ ' + text + ' ☠';
-  const style = document.createElement('style');
-  style.textContent = '@keyframes mileAnim{0%{opacity:0;transform:translate(-50%,-50%) scale(.3)}15%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}30%{transform:translate(-50%,-50%) scale(1)}65%{opacity:1}100%{opacity:0;transform:translate(-50%,-60%) scale(1.08)}}';
-  document.head.appendChild(style);
-  $('dc-root').appendChild(el);
-  setTimeout(() => { try{el.remove();style.remove();}catch(e){} }, 2900);
-}
-
-/* ══════════════════════════════════════════════════
-   SE STORE
-══════════════════════════════════════════════════ */
-function save() {
-  try { SE_API.store.set('mort_o_metre_4f', JSON.stringify({ deaths, record })); } catch(e) {}
-}
-function load() {
-  try {
-    SE_API.store.get('mort_o_metre_4f').then(data => {
-      if (!data) return;
-      const p = JSON.parse(data);
-      deaths = parseInt(p.deaths) || 0;
-      record = parseInt(p.record) || 0;
-      render();
-    });
-  } catch(e) {}
-}
-
-/* ══════════════════════════════════════════════════
-   COMMANDES CHAT
-══════════════════════════════════════════════════ */
-function parseMort(args) {
-  if (!args?.trim()) return { action:'add', value:1 };
-  const a = args.trim().toLowerCase();
-  if (a === 'reset') return { action:'reset' };
-  const signed = a.match(/^([+-])(\d+)$/);
-  if (signed) return { action: signed[1]==='+'?'add':'sub', value:parseInt(signed[2]) };
-  const abs = a.match(/^(\d+)$/);
-  if (abs)    return { action:'set', value:parseInt(abs[1]) };
-  return null;
-}
-function isMod(tags) {
-  return tags?.broadcaster==='1'||tags?.mod==='1'||tags?.moderator==='1'
-    ||(tags?.badges||'').includes('broadcaster')||(tags?.badges||'').includes('moderator');
-}
-
-function applyDeath(newVal) {
-  const prev = deaths;
-  deaths = clamp(newVal, 0, 9999);
-  if (deaths > record) record = deaths;
-  render();
-  save();
-  const delta = deaths - prev;
-  if (!visible) {
-    show(Math.max(SHOW_DUR(), 6000));
-    setTimeout(() => animateEvent(delta), 500);
-  } else {
-    clearTimeout(hideTimer);
-    hideTimer = setTimeout(hide, SHOW_DUR());
-    animateEvent(delta);
-  }
-}
-
-/* ══════════════════════════════════════════════════
-   SE LISTENERS
-══════════════════════════════════════════════════ */
-window.addEventListener('onWidgetLoad', function(obj) {
-  FD = obj?.detail?.fieldData || {};
-  load();
-
-  // Compteur manuel dans FIELDS
-  setTimeout(() => {
-    const manual = num(fd('deathCount'), -1);
-    if (manual >= 0 && manual !== deaths) applyDeath(manual);
-    else render();
-  }, 700);
-
-  // Première apparition
-  setTimeout(() => show(), 2000);
-});
-
-window.addEventListener('onEventReceived', function(obj) {
-  if (!obj?.detail) return;
-  const { listener, event } = obj.detail;
-  if (listener !== 'message' || !event?.data?.text) return;
-
-  const text  = event.data.text.trim();
-  const tags  = event.data.tags || event.data;
-  const lower = text.toLowerCase();
-
-  if (lower === '!deaths') { show(Math.max(SHOW_DUR(), 5000)); return; }
-  if (!lower.startsWith('!mort')) return;
-  if (!isMod(tags)) return;
-
-  const parsed = parseMort(text.slice(5).trim());
-  if (!parsed) return;
-
-  if (parsed.action === 'reset')  applyDeath(0);
-  else if (parsed.action === 'set')  applyDeath(parsed.value);
-  else if (parsed.action === 'add')  applyDeath(deaths + parsed.value);
-  else if (parsed.action === 'sub')  applyDeath(deaths - parsed.value);
-});
