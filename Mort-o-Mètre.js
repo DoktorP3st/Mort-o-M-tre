@@ -1,7 +1,7 @@
 /* ══════════════════════════════════════════════════
    MORT-O-MÈTRE — 4 Formes | ZÉRO FOND | JS
    Formes : 0=ange  1=crâne calme  2=crâne agité  3+=démon
-   Toggles : fumée orange, pluie de sang
+   Toggle : pluie de sang
    Commandes : !mort N/+N/-N/reset | !deaths
    Persistance : SE Store
 ══════════════════════════════════════════════════ */
@@ -13,7 +13,6 @@ let FD         = {};
 let visible    = false;
 let hideTimer  = null;
 let showTimer  = null;
-let smokeTimer = null;
 let bloodTimer = null;
 let vortexInt  = null;
 let ltTimer    = null;
@@ -106,35 +105,6 @@ function scheduleNext() {
 /* ══════════════════════════════════════════════════
    FUMÉE ORANGE
 ══════════════════════════════════════════════════ */
-function spawnSmoke() {
-  if (fd('smokeEnabled') === false || fd('smokeEnabled') === 'false') return;
-  const tier = getTier();
-  if (tier === 0) return;
-  const cont = $('dc-smoke'); if (!cont) return;
-  const el  = document.createElement('div'); el.className = 'sm';
-  // Spawn concentré autour du crâne, pas sur tout le canvas
-  const x   = rand(90, 230);
-  const y   = rand(200, 310);
-  const sz  = rand(40, 90);  // grand pour rester visible après blur
-  const dur = rand(3, 6);
-  const dx  = rand(-40, 40);
-  const cols   = ['','rgba(255,130,40,','rgba(210,50,0,','rgba(160,10,0,'];
-  const alphas = [0, .6, .7, .75];
-  const col    = cols[tier];
-  const alpha  = alphas[tier] || .6;
-  const blurPx = 8; // blur fixe modéré
-  el.style.left             = x + 'px';
-  el.style.top              = y + 'px';
-  el.style.width            = sz + 'px';
-  el.style.height           = sz + 'px';
-  el.style.background       = `radial-gradient(circle,${col}${alpha}) 0%,${col}0) 75%)`;
-  el.style.filter           = `blur(${blurPx}px)`;
-  el.style.animationDuration= dur + 's';
-  el.style.animationDelay   = rand(0,.3) + 's';
-  el.style.setProperty('--sdx', dx + 'px'); // CSS var via setProperty (cssText l'ignore)
-  cont.appendChild(el);
-  el.addEventListener('animationend', ()=>{ try{el.remove();}catch(e){} });
-}
 
 /* ══════════════════════════════════════════════════
    PLUIE DE SANG
@@ -223,7 +193,6 @@ function spawnLightning() {
    GESTION AMBIANTS
 ══════════════════════════════════════════════════ */
 function stopAmbient() {
-  clearInterval(smokeTimer);
   clearInterval(bloodTimer);
   clearInterval(vortexInt);
   clearInterval(ltTimer);
@@ -234,18 +203,16 @@ function restartAmbient() {
   if (!visible) return;
   const tier = getTier();
 
-  // Fumée
-  const smIntervals = [0, 900, 550, 280][tier] || 0;
-  if (smIntervals > 0) {
-    smokeTimer = setInterval(spawnSmoke, smIntervals);
-    spawnSmoke(); spawnSmoke();
-  }
 
   // Pluie de sang
-  const brIntervals = [0, 400, 180, 80][tier] || 0;
+  // Intensité depuis le panel (1=rare → 10=torrentiel)
+  const brIntensity = num(fd('bloodRainIntensity'), 5);
+  const brBase = [0, 1200, 600, 280][tier] || 0;
+  const brIntervals = brBase > 0 ? Math.round(brBase / brIntensity * 5) : 0;
+  const brInitCount = Math.max(1, Math.round(brIntensity / 2));
   if (brIntervals > 0) {
     bloodTimer = setInterval(spawnBloodDrop, brIntervals);
-    spawnBloodDrop(); spawnBloodDrop(); spawnBloodDrop(); spawnBloodDrop(); spawnBloodDrop();
+    for(let i=0;i<brInitCount;i++) spawnBloodDrop();
   }
 
   // Vortex
