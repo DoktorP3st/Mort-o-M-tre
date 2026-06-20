@@ -119,5 +119,4 @@ Chaque forme a ses propres effets passifs : vortex de particules, éclairs, plui
 
 ## 🔗 Liens
 
-- 📺 Stream : [twitch.tv/Paglorieux](https://twitch.tv/Paglorieux)
-- 🎮 Compte secondaire : [twitch.tv/Pestovich](https://twitch.tv/Pestovich)
+- 🎮 Twitch : [twitch.tv/Pestovich](https://twitch.tv/Pestovich)
