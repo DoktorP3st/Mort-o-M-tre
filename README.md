@@ -115,8 +115,3 @@ Chaque forme a ses propres effets passifs : vortex de particules, éclairs, plui
 3. Sauvegarder et ajouter la source dans **OBS**
 4. Redimensionner dans OBS selon ta mise en page
 
----
-
-## 🔗 Liens
-
-- 🎮 Twitch : [twitch.tv/Pestovich](https://twitch.tv/Pestovich)
